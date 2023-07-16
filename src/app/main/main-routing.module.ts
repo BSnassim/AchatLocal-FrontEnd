@@ -35,6 +35,7 @@ import {AppHelpComponent} from '../pages/app.help.component';
 import {EmptyDemoComponent} from '../demo/view/emptydemo.component';
 import {DocumentationComponent} from '../demo/view/documentation.component';
 import {AuthGuardService} from '../auth/guards/auth-guard.service';
+import { AdminModule } from '../admin/admin.module';
 
 const templateRoutes: Routes = [
     {path: 'uikit/formlayout', component: FormLayoutDemoComponent},
@@ -74,11 +75,10 @@ const templateRoutes: Routes = [
 
 export const mainRoutes: Routes = [
     {path: '', component: DashboardDemoComponent, canActivate: [AuthGuardService]},
-    // place here child routes
-  /*  {
+    {
         path: 'administration',
-        loadChildren: () => import('../administration/administration.module').then(m => m.AdministrationModule)
-    },*/
+        loadChildren: () => AdminModule
+    },
     ...templateRoutes
 ];
 
