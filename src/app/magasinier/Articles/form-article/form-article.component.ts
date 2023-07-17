@@ -13,8 +13,6 @@ export class FormArticleComponent implements OnInit {
   @Input() articleToEdit: Article;
   @Output() closeDialog = new EventEmitter<boolean>();
 
-  noSpecial = /^[a-zàâçéèêëîïôûùüÿñæœ .-]*$/i
-
   article: Article = new Article;
 
   libelle: string;
@@ -41,7 +39,7 @@ export class FormArticleComponent implements OnInit {
       this.stock = this.articleToEdit.stock;
       this.caracteristiques = this.articleToEdit.caracteristiques;
       this.marque = this.articleToEdit.marque;
-      // this.selectedCategorie = this.articleToEdit.categorie
+      this.selectedCategorie = this.articleToEdit.categorie;
     };
   }
 

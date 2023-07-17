@@ -5,7 +5,7 @@ import { tap } from 'rxjs/operators';
 import { environment } from 'src/environments/environment.dev';
 import { Article } from '../models/article';
 
-const URL = environment.apiURL + "/article";
+const URL = environment.apiURL + "/articles";
 @Injectable({
   providedIn: 'root'
 })

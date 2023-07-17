@@ -72,7 +72,7 @@
         <p-dialog [(visible)]="categorieDialog" [style]="{width: '450px'}" header="Détails de la categorie" [modal]="true"
             styleClass="p-fluid">
             <ng-template pTemplate="content">
-                <app-form-categorie (closeDialog)="closeDialog($event)" [userToEdit]="user"></app-form-categorie>
+                <app-form-categorie (closeDialog)="closeDialog($event)" [categorieToEdit]="categorie"></app-form-categorie>
             </ng-template>
 
             <ng-template pTemplate="footer">

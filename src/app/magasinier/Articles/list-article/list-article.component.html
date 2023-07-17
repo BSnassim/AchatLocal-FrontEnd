@@ -67,7 +67,7 @@
                             {{article.marque}}
                         </td>
                         <td><span class="p-column-title">Categorie</span>
-                            <p-tag severity="success">{{article.categorie.libelle}}</p-tag>
+                            <p-tag severity="primary">{{article.categorie.libelle}}</p-tag>
                         </td>
                         <td>
                             <button pButton pRipple icon="pi pi-pencil" class="p-button-rounded p-button-success mr-2"
@@ -85,10 +85,10 @@
             </p-table>
         </div>
 
-        <p-dialog [(visible)]="articleDialog" [style]="{width: '450px'}" header="Détails de la article" [modal]="true"
+        <p-dialog [(visible)]="articleDialog" [style]="{width: '450px'}" header="Détails de l'article" [modal]="true"
             styleClass="p-fluid">
             <ng-template pTemplate="content">
-                <app-form-article (closeDialog)="closeDialog($event)" [userToEdit]="user"></app-form-article>
+                <app-form-article (closeDialog)="closeDialog($event)" [articleToEdit]="article"></app-form-article>
             </ng-template>
 
             <ng-template pTemplate="footer">

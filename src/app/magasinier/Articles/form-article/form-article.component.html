@@ -1,7 +1,14 @@
-<div class="field">
-    <label for="firstname1">Libellé de l'article</label>
-    <input id="firstname1" type="text" [(ngModel)]="libelle" [pKeyFilter]="noSpecial" autofocus maxlength="40" pInputText>
+<div class="p-fluid formgrid grid">
+    <div class="field col">
+        <label for="libelle">Libellé de l'article</label>
+        <input id="libelle" type="text" [(ngModel)]="libelle" autofocus maxlength="40" pInputText>
+    </div>
+    <div class="field col">
+        <label for="marque">Marque</label>
+        <input id="marque" type="text" [(ngModel)]="marque" maxlength="40" pInputText>
+    </div>
 </div>
+
 <div class="p-fluid formgrid grid">
     <div class="field col">
         <label>Categorie</label>
@@ -9,8 +16,18 @@
             placeholder="Choisir une categorie" [showClear]="true">
         </p-dropdown>
     </div>
+    <div class="field col">
+        <label>Quantité en stock</label>
+        <p-inputNumber mode="decimal" [showButtons]="true" [min]="0" [(ngModel)]="stock"></p-inputNumber>
+    </div>
+</div>
+<div class="field">
+    <label>Caracteristiques</label>
+    <textarea rows="5" cols="30" [(ngModel)]="caracteristiques" pInputTextarea></textarea>
 </div>
 <div class="footer">
-<button pButton pRipple label="Confirmer" icon="pi pi-check" class="p-button-text" (click)="onSubmit()" [disabled]="!libelle"></button>
-<button pButton pRipple label="Annuler" icon="pi pi-times" class="p-button-text" (click)="terminateDialog()"></button>
+    <button pButton pRipple label="Confirmer" icon="pi pi-check" class="p-button-text" (click)="onSubmit()"
+        [disabled]="!libelle"></button>
+    <button pButton pRipple label="Annuler" icon="pi pi-times" class="p-button-text"
+        (click)="terminateDialog()"></button>
 </div>

@@ -168,6 +168,8 @@ import { FormArticleComponent } from './magasinier/Articles/form-article/form-ar
 import { ListArticleComponent } from './magasinier/Articles/list-article/list-article.component';
 import { FormCategorieComponent } from './magasinier/Categories/form-categorie/form-categorie.component';
 import { ListCategorieComponent } from './magasinier/Categories/list-categorie/list-categorie.component';
+import { FormDemandeArticleComponent } from './demande/Demande-Article/form-demande-article/form-demande-article.component';
+import { ListDemandeArticleComponent } from './demande/Demande-Article/list-demande-article/list-demande-article.component';
 
 FullCalendarModule.registerPlugins([
     dayGridPlugin,
@@ -335,7 +337,9 @@ export function HttpLoaderFactory(http: HttpClient): TranslateHttpLoader {
         ListCategorieComponent,
         FormCategorieComponent,
         ListArticleComponent,
-        FormArticleComponent
+        FormArticleComponent,
+        FormDemandeArticleComponent,
+        ListDemandeArticleComponent
     ],
     providers: [
         {

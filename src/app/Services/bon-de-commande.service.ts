@@ -3,13 +3,15 @@ import { Injectable } from '@angular/core';
 import { Subject, Observable } from 'rxjs';
 import { tap } from 'rxjs/operators';
 import { environment } from 'src/environments/environment.dev';
-import { Categorie } from '../models/categorie';
+import { BonDeCommande } from '../models/bon-de-commande';
 
-const URL = environment.apiURL + "/categorie";
+const URL = environment.apiURL + "/bonDeCommande";
+
 @Injectable({
   providedIn: 'root'
 })
-export class CategorieService {
+export class BonDeCommandeService {
+
   private _refresh$ = new Subject<void>();
 
   constructor(private http: HttpClient) { }
@@ -18,27 +20,27 @@ export class CategorieService {
     return this._refresh$;
   }
 
-  getCategories(): Observable<Categorie[]> {
-    return this.http.get<Categorie[]>(URL);
+  getBonDeCommandes(): Observable<BonDeCommande[]> {
+    return this.http.get<BonDeCommande[]>(URL);
   }
 
-  addCategorie(categorie: Categorie) {
-    return this.http.post<Categorie>(URL, categorie).pipe(
+  addBonDeCommande(bonDeCommande: BonDeCommande) {
+    return this.http.post<BonDeCommande>(URL, bonDeCommande).pipe(
       tap(() => {
         this._refresh$.next();
       })
     )
   }
 
-  editCategorie(categorie: Categorie): Observable<Categorie> {
-    return this.http.put<Categorie>(URL, categorie).pipe(
+  editBonDeCommande(bonDeCommande: BonDeCommande): Observable<BonDeCommande> {
+    return this.http.put<BonDeCommande>(URL, bonDeCommande).pipe(
       tap(() => {
         this._refresh$.next();
       })
     );
   }
 
-  deleteCategorie(id: number) {
+  deleteBonDeCommande(id: number) {
     return this.http.delete(URL + "/" + id).pipe(
       tap(() => {
         this._refresh$.next();
