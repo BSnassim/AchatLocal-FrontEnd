@@ -9,8 +9,8 @@
                     <button pButton pRipple label="New" icon="pi pi-plus" class="p-button-success mr-2 mb-2"
                         (click)="openNew()"></button>
                     <button pButton pRipple label="Delete" icon="pi pi-trash" class="p-button-danger mb-2"
-                        (click)="deleteSelectedProducts()"
-                        [disabled]="!selectedProducts || !selectedProducts.length"></button>
+                        (click)="deleteSelectedCategories()"
+                        [disabled]="!selectedCategories || !selectedCategories.length"></button>
                 </ng-template>
 
                 <ng-template pTemplate="right">
@@ -21,14 +21,14 @@
                 </ng-template>
             </p-toolbar>
 
-            <p-table #dt [value]="usersList" [columns]="cols" [rows]="10" [paginator]="true"
+            <p-table #dt [value]="categoriesList" [columns]="cols" [rows]="10" [paginator]="true"
                 [globalFilterFields]="['name','country.name','representative.name','status']"
-                [(selection)]="selectedUsers" [rowHover]="true" dataKey="id" styleClass="p-datatable-customers"
+                [(selection)]="selectedCategories" [rowHover]="true" dataKey="id" styleClass="p-datatable-customers"
                 currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries"
                 [showCurrentPageReport]="true">
                 <ng-template pTemplate="caption">
                     <div class="flex flex-column md:flex-row md:justify-content-between table-header">
-                        <h5 class="p-m-0">Gérer les utilisateurs</h5>
+                        <h5 class="p-m-0">Gérer les categories</h5>
                         <span class="p-input-icon-left">
                             <i class="pi pi-search"></i>
                             <input pInputText type="text" (input)="dt.filterGlobal($event.target.value, 'contains')"
@@ -41,50 +41,38 @@
                         <th style="width: 3rem">
                             <p-tableHeaderCheckbox></p-tableHeaderCheckbox>
                         </th>
-                        <th pSortableColumn="nom">Nom <p-sortIcon field="nom"></p-sortIcon></th>
-                        <th pSortableColumn="prenom">Prenom <p-sortIcon field="prenom"></p-sortIcon></th>
-                        <th pSortableColumn="email">Email <p-sortIcon field="email"></p-sortIcon></th>
-                        <th pSortableColumn="role">Role <p-sortIcon field="role"></p-sortIcon></th>
+                        <th pSortableColumn="libelle">libelle <p-sortIcon field="libelle"></p-sortIcon></th>
                         <th></th>
                     </tr>
                 </ng-template>
-                <ng-template pTemplate="body" let-user>
+                <ng-template pTemplate="body" let-categorie>
                     <tr>
                         <td>
-                            <p-tableCheckbox [value]="user"></p-tableCheckbox>
+                            <p-tableCheckbox [value]="categorie"></p-tableCheckbox>
                         </td>
-                        <td><span class="p-column-title">Nom</span>
-                            {{user.nom}}
-                        </td>
-                        <td><span class="p-column-title">Prenom</span>
-                            {{user.prenom}}
-                        </td>
-                        <td><span class="p-column-title">Email</span>
-                            {{user.email}}
-                        </td>
-                        <td><span class="p-column-title">Role</span>
-                            <p-tag severity="success" >{{user.role.nom}}</p-tag>
+                        <td><span class="p-column-title">Libellé</span>
+                            {{categorie.libelle}}
                         </td>
                         <td>
                             <button pButton pRipple icon="pi pi-pencil" class="p-button-rounded p-button-success mr-2"
-                                (click)="editUser(user)"></button>
+                                (click)="editCategorie(categorie)"></button>
                             <button pButton pRipple icon="pi pi-trash" class="p-button-rounded p-button-warning"
-                                (click)="deleteUser(user)"></button>
+                                (click)="deleteCategorie(categorie)"></button>
                         </td>
                     </tr>
                 </ng-template>
                 <ng-template pTemplate="summary">
                     <div class="flex align-items-center justify-content-between">
-                        Il y a {{usersList ? usersList.length : 0 }} utilisateurs au total.
+                        Il y a {{categoriesList ? categoriesList.length : 0 }} categories au total.
                     </div>
                 </ng-template>
             </p-table>
         </div>
 
-        <p-dialog [(visible)]="userDialog" [style]="{width: '650px'}" header="Détails de l'utilisateur" [modal]="true"
+        <p-dialog [(visible)]="categorieDialog" [style]="{width: '450px'}" header="Détails de la categorie" [modal]="true"
             styleClass="p-fluid">
             <ng-template pTemplate="content">
-                <app-form-user (closeDialog)="closeDialog($event)" [userToEdit]="user"></app-form-user>
+                <app-form-categorie (closeDialog)="closeDialog($event)" [userToEdit]="user"></app-form-categorie>
             </ng-template>
 
             <ng-template pTemplate="footer">

@@ -9,8 +9,8 @@
                     <button pButton pRipple label="New" icon="pi pi-plus" class="p-button-success mr-2 mb-2"
                         (click)="openNew()"></button>
                     <button pButton pRipple label="Delete" icon="pi pi-trash" class="p-button-danger mb-2"
-                        (click)="deleteSelectedProducts()"
-                        [disabled]="!selectedProducts || !selectedProducts.length"></button>
+                        (click)="deleteSelectedArticles()"
+                        [disabled]="!selectedArticles || !selectedArticles.length"></button>
                 </ng-template>
 
                 <ng-template pTemplate="right">
@@ -21,14 +21,14 @@
                 </ng-template>
             </p-toolbar>
 
-            <p-table #dt [value]="usersList" [columns]="cols" [rows]="10" [paginator]="true"
+            <p-table #dt [value]="articlesList" [columns]="cols" [rows]="10" [paginator]="true"
                 [globalFilterFields]="['name','country.name','representative.name','status']"
-                [(selection)]="selectedUsers" [rowHover]="true" dataKey="id" styleClass="p-datatable-customers"
+                [(selection)]="selectedArticles" [rowHover]="true" dataKey="id" styleClass="p-datatable-customers"
                 currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries"
                 [showCurrentPageReport]="true">
                 <ng-template pTemplate="caption">
                     <div class="flex flex-column md:flex-row md:justify-content-between table-header">
-                        <h5 class="p-m-0">Gérer les utilisateurs</h5>
+                        <h5 class="p-m-0">Gérer les articles</h5>
                         <span class="p-input-icon-left">
                             <i class="pi pi-search"></i>
                             <input pInputText type="text" (input)="dt.filterGlobal($event.target.value, 'contains')"
@@ -41,50 +41,54 @@
                         <th style="width: 3rem">
                             <p-tableHeaderCheckbox></p-tableHeaderCheckbox>
                         </th>
-                        <th pSortableColumn="nom">Nom <p-sortIcon field="nom"></p-sortIcon></th>
-                        <th pSortableColumn="prenom">Prenom <p-sortIcon field="prenom"></p-sortIcon></th>
-                        <th pSortableColumn="email">Email <p-sortIcon field="email"></p-sortIcon></th>
-                        <th pSortableColumn="role">Role <p-sortIcon field="role"></p-sortIcon></th>
+                        <th pSortableColumn="libelle">libelle <p-sortIcon field="libelle"></p-sortIcon></th>
+                        <th pSortableColumn="stock">stock <p-sortIcon field="stock"></p-sortIcon></th>
+                        <th pSortableColumn="caracteristiques">caracteristiques <p-sortIcon field="catacteristiques"></p-sortIcon></th>
+                        <th pSortableColumn="marque">marque <p-sortIcon field="marque"></p-sortIcon></th>
+                        <th pSortableColumn="categorie">categorie <p-sortIcon field="categorie"></p-sortIcon></th>
                         <th></th>
                     </tr>
                 </ng-template>
-                <ng-template pTemplate="body" let-user>
+                <ng-template pTemplate="body" let-article>
                     <tr>
                         <td>
-                            <p-tableCheckbox [value]="user"></p-tableCheckbox>
+                            <p-tableCheckbox [value]="article"></p-tableCheckbox>
                         </td>
-                        <td><span class="p-column-title">Nom</span>
-                            {{user.nom}}
+                        <td><span class="p-column-title">Libellé</span>
+                            {{article.libelle}}
                         </td>
-                        <td><span class="p-column-title">Prenom</span>
-                            {{user.prenom}}
+                        <td><span class="p-column-title">Stock</span>
+                            {{article.stock}}
                         </td>
-                        <td><span class="p-column-title">Email</span>
-                            {{user.email}}
+                        <td><span class="p-column-title">Caracteristiques</span>
+                            {{article.caracteristiques}}
                         </td>
-                        <td><span class="p-column-title">Role</span>
-                            <p-tag severity="success" >{{user.role.nom}}</p-tag>
+                        <td><span class="p-column-title">Marque</span>
+                            {{article.marque}}
+                        </td>
+                        <td><span class="p-column-title">Categorie</span>
+                            <p-tag severity="success">{{article.categorie.libelle}}</p-tag>
                         </td>
                         <td>
                             <button pButton pRipple icon="pi pi-pencil" class="p-button-rounded p-button-success mr-2"
-                                (click)="editUser(user)"></button>
+                                (click)="editArticle(article)"></button>
                             <button pButton pRipple icon="pi pi-trash" class="p-button-rounded p-button-warning"
-                                (click)="deleteUser(user)"></button>
+                                (click)="deleteArticle(article)"></button>
                         </td>
                     </tr>
                 </ng-template>
                 <ng-template pTemplate="summary">
                     <div class="flex align-items-center justify-content-between">
-                        Il y a {{usersList ? usersList.length : 0 }} utilisateurs au total.
+                        Il y a {{articlesList ? articlesList.length : 0 }} articles au total.
                     </div>
                 </ng-template>
             </p-table>
         </div>
 
-        <p-dialog [(visible)]="userDialog" [style]="{width: '650px'}" header="Détails de l'utilisateur" [modal]="true"
+        <p-dialog [(visible)]="articleDialog" [style]="{width: '450px'}" header="Détails de la article" [modal]="true"
             styleClass="p-fluid">
             <ng-template pTemplate="content">
-                <app-form-user (closeDialog)="closeDialog($event)" [userToEdit]="user"></app-form-user>
+                <app-form-article (closeDialog)="closeDialog($event)" [userToEdit]="user"></app-form-article>
             </ng-template>
 
             <ng-template pTemplate="footer">

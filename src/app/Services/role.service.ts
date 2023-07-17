@@ -26,7 +26,7 @@ export class RoleService {
   addRole(role: Role) {
     return this.http.post<Role>(URL, role).pipe(
       tap(() =>{
-        this._refresh$.next;
+        this._refresh$.next();
       })
     )
   }

@@ -36,6 +36,7 @@ import {EmptyDemoComponent} from '../demo/view/emptydemo.component';
 import {DocumentationComponent} from '../demo/view/documentation.component';
 import {AuthGuardService} from '../auth/guards/auth-guard.service';
 import { AdminModule } from '../admin/admin.module';
+import { MagasinierModule } from '../magasinier/magasinier.module';
 
 const templateRoutes: Routes = [
     {path: 'uikit/formlayout', component: FormLayoutDemoComponent},
@@ -78,6 +79,10 @@ export const mainRoutes: Routes = [
     {
         path: 'administration',
         loadChildren: () => AdminModule
+    },
+    {
+        path: 'magasinier',
+        loadChildren: () => MagasinierModule
     },
     ...templateRoutes
 ];

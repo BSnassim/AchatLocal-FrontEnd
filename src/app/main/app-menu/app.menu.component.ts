@@ -29,7 +29,24 @@ export class AppMenuComponent implements OnInit {
             routerLink: ["/administration/roles"]
           }
         ]
-      }, {
+      },
+      {
+        label: "Magasinier",
+        icon: "pi pi-fw pi-book",
+        items: [
+          {
+            label: "Gestion des categories",
+            icon: "pi pi-fw pi-th-large",
+            routerLink: ["/magasinier/categories"]
+          },
+          {
+            label: "Gestion des articles",
+            icon: "pi pi-fw pi-pencil",
+            routerLink: ["/magasinier/articles"]
+          }
+        ]
+      }, 
+      {
         label: "Template",
         icon: "pi pi-home",
         items: [

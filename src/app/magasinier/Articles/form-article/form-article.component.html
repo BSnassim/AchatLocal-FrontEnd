@@ -1,0 +1,16 @@
+<div class="field">
+    <label for="firstname1">Libellé de l'article</label>
+    <input id="firstname1" type="text" [(ngModel)]="libelle" [pKeyFilter]="noSpecial" autofocus maxlength="40" pInputText>
+</div>
+<div class="p-fluid formgrid grid">
+    <div class="field col">
+        <label>Categorie</label>
+        <p-dropdown [options]="categories" optionLabel="libelle" [(ngModel)]="selectedCategorie"
+            placeholder="Choisir une categorie" [showClear]="true">
+        </p-dropdown>
+    </div>
+</div>
+<div class="footer">
+<button pButton pRipple label="Confirmer" icon="pi pi-check" class="p-button-text" (click)="onSubmit()" [disabled]="!libelle"></button>
+<button pButton pRipple label="Annuler" icon="pi pi-times" class="p-button-text" (click)="terminateDialog()"></button>
+</div>
