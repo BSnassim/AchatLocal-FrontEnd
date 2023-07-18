@@ -17,12 +17,12 @@
                     <p-fileUpload mode="basic" accept="image/*" [maxFileSize]="1000000" label="Import"
                         chooseLabel="Import" class="mr-2 mb-2 inline-block"></p-fileUpload>
                     <button pButton pRipple label="Export" icon="pi pi-upload" class="p-button-help mb-2"
-                        (click)="dt.exportCSV()"></button>
+                        (click)="exportPdf()"></button>
                 </ng-template>
             </p-toolbar>
 
             <p-table #dt [value]="articlesList" [columns]="cols" [rows]="10" [paginator]="true"
-                [globalFilterFields]="['name','country.name','representative.name','status']"
+                [globalFilterFields]="['libelle','caracteristiques','marque','categorie.libelle']"
                 [(selection)]="selectedArticles" [rowHover]="true" dataKey="id" styleClass="p-datatable-customers"
                 currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries"
                 [showCurrentPageReport]="true">
@@ -45,7 +45,7 @@
                         <th pSortableColumn="stock">stock <p-sortIcon field="stock"></p-sortIcon></th>
                         <th pSortableColumn="caracteristiques">caracteristiques <p-sortIcon field="catacteristiques"></p-sortIcon></th>
                         <th pSortableColumn="marque">marque <p-sortIcon field="marque"></p-sortIcon></th>
-                        <th pSortableColumn="categorie">categorie <p-sortIcon field="categorie"></p-sortIcon></th>
+                        <th pSortableColumn="categorie.libelle">categorie <p-sortIcon field="categorie"></p-sortIcon></th>
                         <th></th>
                     </tr>
                 </ng-template>

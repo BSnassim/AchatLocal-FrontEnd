@@ -22,6 +22,10 @@ export class ArticleService {
     return this.http.get<Article[]>(URL);
   }
 
+  getArticlesByCategorieId(id:number): Observable<Article[]> {
+    return this.http.get<Article[]>(URL+"/categorie/"+id);
+  }
+
   addArticle(Article: Article) {
     return this.http.post<Article>(URL, Article).pipe(
       tap(() => {

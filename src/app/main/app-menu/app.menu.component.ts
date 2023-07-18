@@ -47,6 +47,11 @@ export class AppMenuComponent implements OnInit {
         ]
       }, 
       {
+        label: "Demander un article",
+        icon: "pi pi-fw pi-file-o",
+        routerLink: ["/demande/Demander-un-article"]
+      },
+      {
         label: "Template",
         icon: "pi pi-home",
         items: [
