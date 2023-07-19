@@ -8,4 +8,5 @@ export class DemandeArticle {
     besoin?: string;
     article?: Article;
     demandeur?: Utilisateur;
+    extraDetails?: string;
 }

@@ -1,1 +1,29 @@
-<p>list-demande-article works!</p>
+<p-table [value]="demandeList" [paginator]="true" [rows]="10" [showCurrentPageReport]="true"
+    [tableStyle]="{ 'min-width': '50rem' }"
+    currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries" [rowsPerPageOptions]="[10, 25, 50]">
+    <ng-template pTemplate="header">
+        <tr>
+            <th style="width:25%">Article</th>
+            <th style="width:25%">Quantite</th>
+            <th style="width:25%">Demandeur</th>
+            <th style="width:25%">Date</th>
+            <th style="width:25%"></th>
+        </tr>
+    </ng-template>
+    <ng-template pTemplate="body" let-demande>
+        <tr>
+            <td *ngIf="testArticleExistence(demande); else elseBlock">{{ demande.article.libelle }}</td>
+            <ng-template #elseBlock><td><p-tag severity="danger">Article n'existe pas</p-tag></td></ng-template>
+            <td>{{ demande.quantite }}</td>
+            <td>{{ demande.demandeur.prenom }} {{ demande.demandeur.nom }}</td>
+            <td>{{ demande.dateDa | date: 'dd/MM/yyyy'}}</td>
+            <td><button (onClick)="redirectToDetails(demande)" pButton pRipple label="Voir plus de détails" class="p-button-primary"></button></td>
+        </tr>
+    </ng-template>
+    <ng-template pTemplate="paginatorleft">
+        
+    </ng-template>
+    <ng-template pTemplate="paginatorright">
+        
+    </ng-template>
+</p-table>
