@@ -1,8 +1,17 @@
 <div class="field">
     <label for="firstname1">Libellé de la categorie</label>
-    <input id="firstname1" type="text" [(ngModel)]="libelle" [pKeyFilter]="noSpecial" autofocus maxlength="40" pInputText>
+    <input id="firstname1" type="text" [(ngModel)]="libelle" [pKeyFilter]="noSpecial" autofocus maxlength="40"
+        pInputText>
+</div>
+<div class="field">
+    <label for="firstname1">Type d'importation</label>
+    <p-dropdown [options]="types" [(ngModel)]="typeImportation" placeholder="Choisir une type d'importation"
+        [showClear]="true">
+    </p-dropdown>
 </div>
 <div class="footer">
-<button pButton pRipple label="Confirmer" icon="pi pi-check" class="p-button-text" (click)="onSubmit()" [disabled]="!libelle"></button>
-<button pButton pRipple label="Annuler" icon="pi pi-times" class="p-button-text" (click)="terminateDialog()"></button>
+    <button pButton pRipple label="Confirmer" icon="pi pi-check" class="p-button-text" (click)="onSubmit()"
+        [disabled]="!libelle || !typeImportation"></button>
+    <button pButton pRipple label="Annuler" icon="pi pi-times" class="p-button-text"
+        (click)="terminateDialog()"></button>
 </div>

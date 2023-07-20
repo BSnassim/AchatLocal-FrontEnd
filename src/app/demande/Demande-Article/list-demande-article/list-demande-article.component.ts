@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
 import { MessageService, ConfirmationService } from 'primeng/api';
 import { AppBreadcrumbService } from 'src/app/main/app-breadcrumb/app.breadcrumb.service';
 import { DemandeArticle } from 'src/app/models/demande-article';
@@ -14,10 +15,15 @@ export class ListDemandeArticleComponent implements OnInit {
 
   demandeList: DemandeArticle[];
 
-  constructor(private breadcrumbService: AppBreadcrumbService,
+  cols: any[];
+
+  constructor(
+    private breadcrumbService: AppBreadcrumbService,
     private messageService: MessageService,
     private confirmationService: ConfirmationService,
-    private demandeArticleService: DemandeArticleService) {
+    private demandeArticleService: DemandeArticleService,
+    private router: Router
+  ) {
     this.breadcrumbService.setItems([
       {
         label: "Liste des demandes",
@@ -27,17 +33,25 @@ export class ListDemandeArticleComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.demandeArticleService.getDemandeArticle().subscribe( (data) =>{
+    this.cols = [
+      { field: 'article', header: 'Article' },
+      { field: 'demandeur', header: 'Demandeur' },
+      { field: 'quantite', header: 'Quantite' },
+      { field: 'dateDa', header: 'DateDa' },
+    ];
+
+    this.demandeArticleService.getDemandeArticle().subscribe((data) => {
       this.demandeList = data;
     });
   }
 
-  testArticleExistence(demande : DemandeArticle){
+  testArticleExistence(demande: DemandeArticle) {
     return !(demande.article == null);
   }
 
-  redirectToDetails(demande : DemandeArticle){
-    
+  redirectToDetails(demande: DemandeArticle) {
+    let v1 = demande.id;
+    this.router.navigate(["/demande/Details-demande", {id : v1}]);
   }
 
 }

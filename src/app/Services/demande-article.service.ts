@@ -23,6 +23,10 @@ export class DemandeArticleService {
     return this.http.get<DemandeArticle[]>(URL);
   }
 
+  getDemandeArticleById(id:number): Observable<DemandeArticle>{
+    return this.http.get<DemandeArticle>(URL+"/"+id);
+  }
+
   addDemandeArticle(demandeArticle: DemandeArticle) {
     return this.http.post<DemandeArticle>(URL, demandeArticle).pipe(
       tap(() => {
@@ -45,6 +49,10 @@ export class DemandeArticleService {
         this._refresh$.next();
       })
     );
+  }
+
+  getDemandeNature(da: DemandeArticle): Observable<string> {
+    return this.http.get<string>(URL+"/nature");
   }
 
 }

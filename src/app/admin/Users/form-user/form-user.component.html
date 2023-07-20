@@ -18,6 +18,12 @@
             placeholder="Choisir un rôle" [showClear]="true">
         </p-dropdown>
     </div>
+    <div class="field col">
+        <label>Departement</label>
+        <p-dropdown [options]="departements" optionLabel="nom" [(ngModel)]="selectedDepartement"
+            placeholder="Choisir un departement" [showClear]="true">
+        </p-dropdown>
+    </div>
 </div>
 <div class="p-fluid formgrid grid">
     <div class="field col">

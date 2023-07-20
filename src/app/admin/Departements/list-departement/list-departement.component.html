@@ -21,14 +21,14 @@
                 </ng-template>
             </p-toolbar>
 
-            <p-table #dt [value]="rolesList" [columns]="cols" [rows]="10" [paginator]="true"
+            <p-table #dt [value]="departementsList" [columns]="cols" [rows]="10" [paginator]="true"
                 [globalFilterFields]="['nom']"
-                [(selection)]="selectedRoles" [rowHover]="true" dataKey="id" styleClass="p-datatable-customers"
+                [(selection)]="selectedDepartements" [rowHover]="true" dataKey="id" styleClass="p-datatable-customers"
                 currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries"
                 [showCurrentPageReport]="true">
                 <ng-template pTemplate="caption">
                     <div class="flex flex-column md:flex-row md:justify-content-between table-header">
-                        <h5 class="p-m-0">Gérer les roles des utilisateurs</h5>
+                        <h5 class="p-m-0">Gérer les departements des utilisateurs</h5>
                         <span class="p-input-icon-left">
                             <i class="pi pi-search"></i>
                             <input pInputText type="text" (input)="dt.filterGlobal($event.target.value, 'contains')"
@@ -45,34 +45,34 @@
                         <th></th>
                     </tr>
                 </ng-template>
-                <ng-template pTemplate="body" let-role>
+                <ng-template pTemplate="body" let-departement>
                     <tr>
                         <td>
-                            <p-tableCheckbox [value]="role"></p-tableCheckbox>
+                            <p-tableCheckbox [value]="departement"></p-tableCheckbox>
                         </td>
                         <td><span class="p-column-title">Nom</span>
-                            {{role.nom}}
+                            {{departement.nom}}
                         </td>
                         <td>
                             <button pButton pRipple icon="pi pi-pencil" class="p-button-rounded p-button-success mr-2"
-                                (click)="editRole(role)"></button>
+                                (click)="editDepartement(departement)"></button>
                             <button pButton pRipple icon="pi pi-trash" class="p-button-rounded p-button-warning"
-                                (click)="deleteRole(role)"></button>
+                                (click)="deleteDepartement(departement)"></button>
                         </td>
                     </tr>
                 </ng-template>
                 <ng-template pTemplate="summary">
                     <div class="flex align-items-center justify-content-between">
-                        Il y a {{rolesList ? rolesList.length : 0 }} roles au total.
+                        Il y a {{departementsList ? departementsList.length : 0 }} departements au total.
                     </div>
                 </ng-template>
             </p-table>
         </div>
 
-        <p-dialog [(visible)]="roleDialog" [style]="{width: '450px'}" header="Détails du rôle" [modal]="true"
+        <p-dialog [(visible)]="departementDialog" [style]="{width: '450px'}" header="Détails du département" [modal]="true"
             styleClass="p-fluid">
             <ng-template pTemplate="content">
-                <app-form-role (closeDialog)="closeDialog($event)" [roleToEdit]="role"></app-form-role>
+                <app-form-departement (closeDialog)="closeDialog($event)" [departementToEdit]="departement"></app-form-departement>
             </ng-template>
 
             <ng-template pTemplate="footer">

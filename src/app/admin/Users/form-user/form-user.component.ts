@@ -1,6 +1,8 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
+import { DepartementService } from 'src/app/Services/departement.service';
 import { RoleService } from 'src/app/Services/role.service';
 import { UtilisateurService } from 'src/app/Services/utilisateur.service';
+import { Departement } from 'src/app/models/departement';
 import { Role } from 'src/app/models/role';
 import { Utilisateur } from 'src/app/models/utilisateur';
 
@@ -16,6 +18,10 @@ export class FormUserComponent implements OnInit {
   roles: Role[];
 
   selectedRole: Role;
+
+  departements: Departement[];
+
+  selectedDepartement: Departement;
 
   user: Utilisateur = new Utilisateur;
 
@@ -40,6 +46,7 @@ export class FormUserComponent implements OnInit {
   noSpecial = /^[a-zàâçéèêëîïôûùüÿñæœ .-]*$/i
 
   constructor(private roleService: RoleService,
+    private departementService: DepartementService,
     private userService: UtilisateurService,
     // private tokenService: TokenService
     ) { }
@@ -48,6 +55,9 @@ export class FormUserComponent implements OnInit {
     this.roleService.getRoles().subscribe(data => {
       this.roles = data;
     });
+    this.departementService.getDepartements().subscribe( data => {
+      this.departements = data;
+    });
 
     if (this.userToEdit != null) {
       this.user.id = this.userToEdit.id;
@@ -55,6 +65,7 @@ export class FormUserComponent implements OnInit {
       this.prenom = this.userToEdit.prenom;
       this.email = this.userToEdit.email;
       this.selectedRole = this.userToEdit.role;
+      this.selectedDepartement = this.userToEdit.departement;
     };
   };
 
@@ -147,7 +158,7 @@ export class FormUserComponent implements OnInit {
   allValidated() {
     let empty = (this.nom == '' || this.prenom == '' || this.email == ''
       || this.password == '' || this.repeatedPass == '' ||
-      this.selectedRole == null);
+      this.selectedRole == null || this.selectedDepartement == null);
     return (this.validateEmail() || this.validatePassword() != '' || empty);
   }
 

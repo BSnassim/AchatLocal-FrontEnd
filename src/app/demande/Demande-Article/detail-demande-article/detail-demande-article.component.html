@@ -1,0 +1,53 @@
+<div class="card info">
+    <table>
+        <tr>
+            <td>
+                <h5>Demandeur : </h5>
+            </td>
+            <td>
+                <div class="detail">{{demandeArticle?.demandeur.prenom}} {{demandeArticle?.demandeur.nom}}</div>
+            </td>
+        </tr>
+        <tr>
+            <td>
+                <h5>Département : </h5>
+            </td>
+            <td>
+                <div class="detail">{{demandeArticle?.demandeur.departement.nom}} </div>
+            </td>
+        </tr>
+        <tr>
+            <td>
+                <h5>Date du demande : </h5>
+            </td>
+            <td>
+                <div class="detail">{{demandeArticle?.dateDa | date : "dd/MM/yyyy"}} </div>
+            </td>
+        </tr>
+        <tr>
+            <td>
+                <h5>Article demandé : </h5>
+            </td>
+            <td>
+                <div class="detail">{{demandeArticle?.article.libelle}} </div>
+            </td>
+        </tr>
+        <tr>
+            <td>
+                <h5>Quantité demandé : </h5>
+            </td>
+            <td>
+                <div class="detail">{{demandeArticle?.quantite}} </div>
+            </td>
+        </tr>
+        <tr>
+            <td>
+                <h5>Besoin de l'article : </h5>
+            </td>
+            <td>
+                <div class="detail">{{demandeArticle?.besoin}} </div>
+            </td>
+        </tr>
+    </table>
+    <button pButton pRipple class="p-button-primary"> {{nature}} </button>
+</div>

@@ -53,6 +53,7 @@ export class ListUserComponent implements OnInit, OnDestroy{
         { field: 'prenom', header: 'Prenom' },
         { field: 'email', header: 'Email' },
         { field: 'role', header: 'Role' },
+        { field: 'departement', header: 'Departement'}
       ];
     }
   

@@ -22,7 +22,7 @@
             </p-toolbar>
 
             <p-table #dt [value]="categoriesList" [columns]="cols" [rows]="10" [paginator]="true"
-                [globalFilterFields]="['name','country.name','representative.name','status']"
+                [globalFilterFields]="['libelle']"
                 [(selection)]="selectedCategories" [rowHover]="true" dataKey="id" styleClass="p-datatable-customers"
                 currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries"
                 [showCurrentPageReport]="true">

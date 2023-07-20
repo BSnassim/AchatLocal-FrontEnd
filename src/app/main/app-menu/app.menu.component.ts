@@ -23,10 +23,16 @@ export class AppMenuComponent implements OnInit {
             label: "Gestion des utilisateurs",
             icon: "pi pi-fw pi-users",
             routerLink: ["/administration/users"]
-          }, {
+          }, 
+          {
             label: "Gestion des roles",
             icon: "pi pi-fw pi-exclamation-triangle",
             routerLink: ["/administration/roles"]
+          },
+          {
+            label: "Gestion des departements",
+            icon: "pi pi-fw pi-id-card",
+            routerLink: ["/administration/departements"]
           }
         ]
       },
@@ -43,6 +49,11 @@ export class AppMenuComponent implements OnInit {
             label: "Gestion des articles",
             icon: "pi pi-fw pi-pencil",
             routerLink: ["/magasinier/articles"]
+          },
+          {
+            label: "Gestion des demandes",
+            icon: "pi pi-fw pi-folder-open",
+            routerLink: ["/demande/Liste-des-demandes"]
           }
         ]
       }, 

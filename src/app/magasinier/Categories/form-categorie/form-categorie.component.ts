@@ -17,22 +17,29 @@ export class FormCategorieComponent implements OnInit {
 
   libelle: string;
 
+  typeImportation: string;
+
+  types = ["Bon de commande", "Demande d'achat"];
+
   constructor(private categorieService: CategorieService) { }
 
   ngOnInit(): void {
     if (this.categorieToEdit != null) {
       this.categorie.id = this.categorieToEdit.id;
       this.libelle = this.categorieToEdit.libelle;
+      this.typeImportation = this.categorieToEdit.typeImportation;
     };
   }
 
   onSubmit() {
     if (this.categorieToEdit == null) {
       this.categorie.libelle = this.libelle;
+      this.categorie.typeImportation = this.typeImportation;
       this.categorieService.addCategorie(this.categorie).subscribe();
     }
     else {
       this.categorie.libelle = this.libelle;
+      this.categorie.typeImportation = this.typeImportation;
       this.categorieService.editCategorie(this.categorie).subscribe();
     }
     this.closeDialog.emit(false);
