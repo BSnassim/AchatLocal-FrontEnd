@@ -6,6 +6,9 @@ import { BonDeSortieService } from 'src/app/Services/bon-de-sortie.service';
 import { DemandeAchatService } from 'src/app/Services/demande-achat.service';
 import { DemandeArticleService } from 'src/app/Services/demande-article.service';
 import { AppBreadcrumbService } from 'src/app/main/app-breadcrumb/app.breadcrumb.service';
+import { BonDeCommande } from 'src/app/models/bon-de-commande';
+import { BonDeSortie } from 'src/app/models/bon-de-sortie';
+import { DemandeAchat } from 'src/app/models/demande-achat';
 import { DemandeArticle } from 'src/app/models/demande-article';
 
 @Component({
@@ -27,7 +30,9 @@ export class DetailDemandeArticleComponent implements OnInit {
     private demandeAchatService: DemandeAchatService,
     private bonDeSortieService: BonDeSortieService,
     private bonDeCommandeService: BonDeCommandeService,
-    private demandeArticleService: DemandeArticleService
+    private demandeArticleService: DemandeArticleService,
+    private confirmationService: ConfirmationService,
+    private messageService: MessageService
   ) {
     this.breadCrumbService.setItems([
       {
@@ -62,9 +67,36 @@ export class DetailDemandeArticleComponent implements OnInit {
   }
 
   getNature(da: DemandeArticle) {
-    this.demandeArticleService.getDemandeNature(da).subscribe(data => {
-      this.nature = data;
-    });
+    if (da.quantite > da.article.stock) {
+      this.nature = da.article.categorie.typeImportation;
+    } else {
+      this.nature = "Bon de sortie";
+    }
+  }
+
+  submit() {
+    this.confirmationService.confirm({
+      message: "Voulez-vous confirmer l'envoi de votre "+this.nature+" ?",
+      header: 'Confirmer',
+      icon: 'pi pi-exclamation-triangle',
+      acceptLabel: 'Oui',
+      rejectLabel: 'Non',
+      accept: () => {
+    switch (this.nature) {
+      case "Bon de sortie":
+        let bs: BonDeSortie = { dateSortie: new Date(), demandeArticle: this.demandeArticle };
+        this.bonDeSortieService.addBonDeSortie(bs).subscribe();
+        break;
+      case "Bon de commande":
+        let bc: BonDeCommande = { dateCommande: new Date(), demandeArticle: this.demandeArticle };
+        this.bonDeCommandeService.addBonDeCommande(bc).subscribe();
+        break;
+      case "Demande d'achat":
+        let dac: DemandeAchat = { dateAchat: new Date(), demandeArticle: this.demandeArticle };
+        this.demandeAchatService.addDemandeAchat(dac).subscribe();
+    };
+    this.messageService.add({ severity: 'réussi', summary: 'Réussi', detail: this.nature+' envoyé', life: 3000 });
+      }});
   }
 
 }

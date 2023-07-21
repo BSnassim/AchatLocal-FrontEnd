@@ -51,8 +51,4 @@ export class DemandeArticleService {
     );
   }
 
-  getDemandeNature(da: DemandeArticle): Observable<string> {
-    return this.http.get<string>(URL+"/nature");
-  }
-
 }

@@ -1,4 +1,6 @@
 <div class="card info">
+    <p-toast></p-toast>
+
     <table>
         <tr>
             <td>
@@ -49,5 +51,7 @@
             </td>
         </tr>
     </table>
-    <button pButton pRipple class="p-button-primary"> {{nature}} </button>
+    <button (click)="submit()" pButton pRipple class="p-button-primary"> {{nature}} </button>
+
+    <p-confirmDialog [style]="{width: '450px'}"></p-confirmDialog>
 </div>

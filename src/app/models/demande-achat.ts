@@ -1,11 +1,9 @@
-import { Article } from "./article";
+import { DemandeArticle } from "./demande-article";
 import { Utilisateur } from "./utilisateur";
 
 export class DemandeAchat {
     id?: number;
     dateAchat?: Date;
-    quantite?: number;
-    article?: Article;
-    demandeur?: Utilisateur;
+    demandeArticle?: DemandeArticle;
     magasinier?: Utilisateur;
 }
