@@ -54,7 +54,28 @@ export class AppMenuComponent implements OnInit {
             label: "Gestion des demandes",
             icon: "pi pi-fw pi-folder-open",
             routerLink: ["/demande/Liste-des-demandes"]
+          },
+          {
+            label: "Bons de sortie",
+            icon: "pi pi-fw pi-folder",
+            routerLink: ["/demande/Liste-des-bons-de-sortie"]
           }
+        ]
+      },
+      {
+        label: "Service d'achat",
+        icon: "pi pi-fw pi-wallet",
+        items: [
+          {
+            label: "Demandes d'achat",
+            icon: "pi pi-fw pi-folder",
+            routerLink: ["service-achat/Liste-demande-achat"]
+          },
+          {
+            label: "Bons de commande",
+            icon: "pi pi-fw pi-folder",
+            routerLink: ["service-achat/Liste-bon-de-commande"]
+          },
         ]
       }, 
       {

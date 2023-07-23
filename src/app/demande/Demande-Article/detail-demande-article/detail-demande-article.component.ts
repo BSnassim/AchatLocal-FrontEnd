@@ -67,7 +67,7 @@ export class DetailDemandeArticleComponent implements OnInit {
   }
 
   getNature(da: DemandeArticle) {
-    if (da.quantite > da.article.stock) {
+    if (da.quantite > da.article.stock || da.article == null) {
       this.nature = da.article.categorie.typeImportation;
     } else {
       this.nature = "Bon de sortie";
@@ -76,27 +76,29 @@ export class DetailDemandeArticleComponent implements OnInit {
 
   submit() {
     this.confirmationService.confirm({
-      message: "Voulez-vous confirmer l'envoi de votre "+this.nature+" ?",
+      message: "Voulez-vous confirmer l'envoi de votre " + this.nature + " ?",
       header: 'Confirmer',
       icon: 'pi pi-exclamation-triangle',
       acceptLabel: 'Oui',
       rejectLabel: 'Non',
       accept: () => {
-    switch (this.nature) {
-      case "Bon de sortie":
-        let bs: BonDeSortie = { dateSortie: new Date(), demandeArticle: this.demandeArticle };
-        this.bonDeSortieService.addBonDeSortie(bs).subscribe();
-        break;
-      case "Bon de commande":
-        let bc: BonDeCommande = { dateCommande: new Date(), demandeArticle: this.demandeArticle };
-        this.bonDeCommandeService.addBonDeCommande(bc).subscribe();
-        break;
-      case "Demande d'achat":
-        let dac: DemandeAchat = { dateAchat: new Date(), demandeArticle: this.demandeArticle };
-        this.demandeAchatService.addDemandeAchat(dac).subscribe();
-    };
-    this.messageService.add({ severity: 'réussi', summary: 'Réussi', detail: this.nature+' envoyé', life: 3000 });
-      }});
+        switch (this.nature) {
+          case "Bon de sortie":
+            let bs: BonDeSortie = { dateSortie: new Date(), demandeArticle: this.demandeArticle };
+            this.bonDeSortieService.addBonDeSortie(bs).subscribe();
+            break;
+          case "Bon de commande":
+            let bc: BonDeCommande = { dateCommande: new Date(), demandeArticle: this.demandeArticle };
+            this.bonDeCommandeService.addBonDeCommande(bc).subscribe();
+            break;
+          case "Demande d'achat":
+            let dac: DemandeAchat = { dateAchat: new Date(), demandeArticle: this.demandeArticle };
+            this.demandeAchatService.addDemandeAchat(dac).subscribe();
+        };
+        this.messageService.add({ severity: 'réussi', summary: 'Réussi', detail: this.nature + ' envoyé', life: 3000 });
+        setTimeout(() => this.router.navigate(["demande/Liste-des-demandes"]), 1000);
+      }
+    });
   }
 
 }
