@@ -23,6 +23,8 @@ export class DetailDemandeArticleComponent implements OnInit {
 
   nature: string;
 
+  articleNull = false;
+
   constructor(
     private breadCrumbService: AppBreadcrumbService,
     private route: ActivatedRoute,
@@ -57,19 +59,23 @@ export class DetailDemandeArticleComponent implements OnInit {
         } else {
           this.demandeArticle = data;
           if (data.article == null) {
-            this.nature = "magasinier";
-          } else {
-            this.getNature(data);
+            this.articleNull = true;
           }
+          this.getNature(data);
+
         }
       });
     });
   }
 
   getNature(da: DemandeArticle) {
-    if (da.quantite > da.article.stock || da.article == null) {
+    if (this.articleNull) {
+      this.nature = da.extraCategorie.typeImportation;
+    }
+    else if (da.quantite > da.article.stock) {
       this.nature = da.article.categorie.typeImportation;
-    } else {
+    }
+    else {
       this.nature = "Bon de sortie";
     }
   }
@@ -82,21 +88,21 @@ export class DetailDemandeArticleComponent implements OnInit {
       acceptLabel: 'Oui',
       rejectLabel: 'Non',
       accept: () => {
+        let v1 = this.demandeArticle.id;
         switch (this.nature) {
           case "Bon de sortie":
             let bs: BonDeSortie = { dateSortie: new Date(), demandeArticle: this.demandeArticle };
             this.bonDeSortieService.addBonDeSortie(bs).subscribe();
+            this.messageService.add({ severity: 'réussi', summary: 'Réussi', detail: this.nature + ' envoyé', life: 3000 });
+            setTimeout(() => this.router.navigate(["demande/Liste-des-demandes"]), 1000);
             break;
           case "Bon de commande":
-            let bc: BonDeCommande = { dateCommande: new Date(), demandeArticle: this.demandeArticle };
-            this.bonDeCommandeService.addBonDeCommande(bc).subscribe();
+            this.router.navigate(["/service-achat/Formulaire-bon-de-commande", { id: v1 }]);
             break;
           case "Demande d'achat":
-            let dac: DemandeAchat = { dateAchat: new Date(), demandeArticle: this.demandeArticle };
-            this.demandeAchatService.addDemandeAchat(dac).subscribe();
+            this.router.navigate(["/service-achat/Formulaire-demande-achat", { id: v1 }]);
+            break;
         };
-        this.messageService.add({ severity: 'réussi', summary: 'Réussi', detail: this.nature + ' envoyé', life: 3000 });
-        setTimeout(() => this.router.navigate(["demande/Liste-des-demandes"]), 1000);
       }
     });
   }

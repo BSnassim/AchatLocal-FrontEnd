@@ -4,13 +4,15 @@
         <div class="card">
             <p-toolbar styleClass="mb-4">
                 <ng-template pTemplate="left">
-                    <button pButton pRipple label="Export" icon="pi pi-upload" class="p-button-help mb-2"
+                    <button pButton pRipple label="Nouveau" icon="pi pi-plus" class="p-button-success mr-2 mb-2"
+                        routerLink="/service-achat/Formulaire-demande-achat"></button>
+                    <button pButton pRipple label="Exporter" icon="pi pi-upload" class="p-button-help mb-2"
                         (click)="exportPDF()"></button>
                 </ng-template>
             </p-toolbar>
 
             <p-table #dt [value]="demandeAchatList" [columns]="cols" [rows]="10" [paginator]="true"
-                [globalFilterFields]="['demandeArticle.article.libelle', 'demandeArticle.demandeur.departement.nom', 'demandeArticle.quantite', 'dateCommande']"
+                [globalFilterFields]="['article.libelle', 'magasinier.nom', 'quantite', 'dateCommande']"
                 [rowHover]="true" dataKey="id" styleClass="p-datatable-customers"
                 currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries"
                 [showCurrentPageReport]="true">
@@ -27,9 +29,8 @@
                 <ng-template pTemplate="header">
                     <tr>
                         
-                        <th pSortableColumn="demandeArticle.article.libelle">Article <p-sortIcon field="article"></p-sortIcon></th>
-                        <th pSortableColumn="demandeArticle.quantite">Quantite <p-sortIcon field="quantite"></p-sortIcon></th>
-                        <th pSortableColumn="demandeArticle.demandeur.departement.nom">Demandeur <p-sortIcon field="demandeur"></p-sortIcon></th>
+                        <th pSortableColumn="article.libelle">Article <p-sortIcon field="article"></p-sortIcon></th>
+                        <th pSortableColumn="quantite">Quantite <p-sortIcon field="quantite"></p-sortIcon></th>
                         <th pSortableColumn="magasinier.nom">Magasinier<p-sortIcon field="magasinier"></p-sortIcon></th>
                         <th pSortableColumn="dateCommande">Date <p-sortIcon field="dateCommande"></p-sortIcon></th>
                         
@@ -38,11 +39,11 @@
                 </ng-template>
                 <ng-template pTemplate="body" let-demandeAchat>
                     <tr>
-                        <td>{{ demandeAchat.demandeArticle.article.libelle }}</td>
-                        <td>{{ demandeAchat.demandeArticle.quantite }}</td>
-                        <td>{{ demandeAchat.demandeArticle.demandeur.departement.nom }}</td>
-                        <td>{{ demandeAchat.dateCommande | date: 'dd/MM/yyyy'}}</td>
-                        <td><button (click)="redirectToDetails(demande)" pButton pRipple label="Voir plus de détails"
+                        <td>{{ demandeAchat.article.libelle }}</td>
+                        <td>{{ demandeAchat.quantite }}</td>
+                        <td>{{ demandeAchat.magasinier.nom }} {{ demandeAchat.magasinier.prenom }}</td>
+                        <td>{{ demandeAchat.dateAchat | date: 'dd/MM/yyyy'}}</td>
+                        <td><button (click)="redirectToDetails(demandeAchat)" pButton pRipple label="Voir plus de détails"
                                 class="p-button-primary"></button></td>
                     </tr>
                 </ng-template>

@@ -34,10 +34,9 @@ export class ListeDemandeAchatComponent implements OnInit {
 
   ngOnInit(): void {
     this.cols = [
-      { field: 'demandeArticle.article.libelle', header: 'Article' },
-      { field: 'demandeArticle.demandeur', header: 'Demandeur' },
+      { field: 'article.libelle', header: 'Article' },
       { field: 'magasinier', header: 'Magasinier' },
-      { field: 'demandeArticle.quantite', header: 'Quantite' },
+      { field: 'quantite', header: 'Quantite' },
       { field: 'dateAchat', header: 'DateAchat' },
     ];
 

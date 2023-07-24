@@ -13,22 +13,14 @@
             </div>
             <div class="field col-6" [hidden]="!hidden">
                 <h5>Details de l'article souhaité</h5>
-                <textarea rows="5" cols="30" [(ngModel)]="details" pInputTextarea></textarea>
+                <textarea rows="5" cols="30" [(ngModel)]="extraArticle" pInputTextarea></textarea>
             </div>
         </div>
         <div class="p-fluid formgrid grid">
             <div class="field col-4">
-                <h5>Quantité demandé</h5>
+                <h5>Quantité à commander</h5>
                 <p-inputNumber mode="decimal" [showButtons]="true" [min]="1" [(ngModel)]="quantite"></p-inputNumber>
             </div>
-            <div class="field col-6">
-                <h5>Besoin de l'article demandé</h5>
-                <textarea rows="5" cols="30" [(ngModel)]="besoin" pInputTextarea></textarea>
-            </div>
-        </div>
-        <div class="">
-            <h5>Votre article n'existe pas dans la liste ?</h5>
-            <p-button (onClick)="changeType()" label="Demander l'achat d'un article" icon="pi pi-bookmark" class="mr-2 mb-2"></p-button>
         </div>
         <div class="mt-4 c1">
             <p-button (onClick)="submitDemande()" label="Confirmer votre demande"></p-button>

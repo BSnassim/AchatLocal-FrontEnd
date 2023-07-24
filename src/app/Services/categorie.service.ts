@@ -22,6 +22,10 @@ export class CategorieService {
     return this.http.get<Categorie[]>(URL);
   }
 
+  getCategoriesByType(type: string): Observable<Categorie[]> {
+    return this.http.get<Categorie[]>(URL+"/ByType/"+type);
+  }
+
   addCategorie(categorie: Categorie) {
     return this.http.post<Categorie>(URL, categorie).pipe(
       tap(() => {

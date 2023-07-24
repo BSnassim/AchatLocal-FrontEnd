@@ -1,22 +1,27 @@
 import { Component, OnInit } from '@angular/core';
+import { ActivatedRoute, Router } from '@angular/router';
 import { MessageService, ConfirmationService, Message } from 'primeng/api';
 import { ArticleService } from 'src/app/Services/article.service';
+import { BonDeCommandeService } from 'src/app/Services/bon-de-commande.service';
 import { CategorieService } from 'src/app/Services/categorie.service';
 import { DemandeArticleService } from 'src/app/Services/demande-article.service';
 import { AppBreadcrumbService } from 'src/app/main/app-breadcrumb/app.breadcrumb.service';
 import { Article } from 'src/app/models/article';
+import { BonDeCommande } from 'src/app/models/bon-de-commande';
 import { Categorie } from 'src/app/models/categorie';
-import { DemandeArticle } from 'src/app/models/demande-article';
 
 @Component({
-  selector: 'app-form-demande-article',
-  templateUrl: './form-demande-article.component.html',
-  styleUrls: ['./form-demande-article.component.scss'],
+  selector: 'app-form-bon-de-commande',
+  templateUrl: './form-bon-de-commande.component.html',
+  styleUrls: ['./form-bon-de-commande.component.scss'],
   providers: [MessageService, ConfirmationService]
 })
-export class FormDemandeArticleComponent implements OnInit {
-
+export class FormBonDeCommandeComponent implements OnInit {
   msgs: Message[] = [];
+
+  hidden: boolean = false;
+
+  extraArticle: string;
 
   categorieList: Categorie[];
 
@@ -28,41 +33,39 @@ export class FormDemandeArticleComponent implements OnInit {
 
   quantite: number;
 
-  besoin: string;
-
-  hidden: boolean = false;
-
-  details: string;
-
   constructor(private breadcrumbService: AppBreadcrumbService,
     private messageService: MessageService,
     private confirmationService: ConfirmationService,
     private categorieService: CategorieService,
+    private bonDeCommandeService: BonDeCommandeService,
     private demandeArticleService: DemandeArticleService,
-    private articleService: ArticleService) {
+    private articleService: ArticleService,
+    private router: Router,
+    private route: ActivatedRoute) {
     this.breadcrumbService.setItems([
       {
-        label: "Demandes",
-        routerLink: ["demande/Liste-des-demandes"]
+        label: "Bons de commande",
+        routerLink: ["service-achat/Liste-bon-de-commande"]
       },
       {
-        label: "Formulaire de demande"
+        label: "Formulaire de commande"
       }
-    ])
+    ]);
   }
 
   ngOnInit(): void {
-    this.categorieService.getCategories().subscribe((data) => {
+    this.categorieService.getCategoriesByType("Bon de commande").subscribe((data) => {
       this.categorieList = data;
-    })
-  }
-
-  changeType() {
-    this.hidden = !this.hidden;
-    this.selectedCategorie = null;
-    this.selectedArticle = null;
-    this.details = null;
-    this.articleList = null;
+    });
+    this.route.params.subscribe((params) => {
+      this.demandeArticleService.getDemandeArticleById(params.id).subscribe(data => {
+        if (data != null) {
+          this.quantite = data.quantite;
+          this.selectedCategorie = data.article.categorie;
+          this.selectedArticle = data.article;
+        }
+      });
+    });
   }
 
   onCategorieSelect() {
@@ -72,7 +75,7 @@ export class FormDemandeArticleComponent implements OnInit {
   }
 
   validateForm(): boolean {
-    return ((this.selectedArticle != null || this.details != null) && this.quantite != null && this.besoin != null);
+    return (this.selectedArticle != null && this.quantite != null);
   }
 
   showErrorViaMessages() {
@@ -83,31 +86,20 @@ export class FormDemandeArticleComponent implements OnInit {
   submitDemande() {
     if (this.validateForm()) {
       this.confirmationService.confirm({
-        message: "Voulez-vous confirmer l'envoi de cette demande ?",
+        message: "Voulez-vous confirmer l'envoi de cette commande ?",
         header: 'Confirmer',
         icon: 'pi pi-exclamation-triangle',
         acceptLabel: 'Oui',
         rejectLabel: 'Non',
         accept: () => {
-          var d: DemandeArticle;
-          if (this.hidden) {
-            d = {
-              dateDa: new Date(),
-              besoin: this.besoin,
-              extraArticle: this.details,
-              extraCategorie: this.selectedCategorie,
-              quantite: this.quantite
-            }
-          } else {
-            d = {
-              dateDa: new Date(),
-              besoin: this.besoin,
-              article: this.selectedArticle,
-              quantite: this.quantite
-            }
-          };
-          this.demandeArticleService.addDemandeArticle(d).subscribe();
-          this.messageService.add({ severity: 'réussi', summary: 'Réussi', detail: 'Demande envoyé', life: 3000 });
+          var b: BonDeCommande = {
+            dateCommande: new Date(),
+            article: this.selectedArticle,
+            quantite: this.quantite,
+
+          }
+          this.bonDeCommandeService.addBonDeCommande(b).subscribe();
+          this.messageService.add({ severity: 'réussi', summary: 'Réussi', detail: 'Commande envoyé', life: 3000 });
         }
       });
     }

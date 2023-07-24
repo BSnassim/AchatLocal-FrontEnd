@@ -30,8 +30,19 @@
             <td>
                 <h5>Article demandé : </h5>
             </td>
-            <td>
+            <td  *ngIf="!articleNull; else elseBlock">
                 <div class="detail">{{demandeArticle?.article.libelle}} </div>
+            </td>
+            <ng-template #elseBlock>
+                <td><div class="detail"><p-tag severity="danger">Article n'existe pas</p-tag></div></td>
+            </ng-template>
+        </tr>
+        <tr [hidden]="!articleNull">
+            <td>
+                <h5>Details de l'article : </h5>
+            </td>
+            <td>
+                <div class="detail">{{demandeArticle?.extraArticle}} </div>
             </td>
         </tr>
         <tr>
@@ -52,6 +63,5 @@
         </tr>
     </table>
     <button (click)="submit()" pButton pRipple class="p-button-primary"> {{nature}} </button>
-
     <p-confirmDialog [style]="{width: '450px'}"></p-confirmDialog>
 </div>

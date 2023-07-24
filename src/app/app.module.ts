@@ -176,6 +176,8 @@ import { DetailDemandeArticleComponent } from './demande/Demande-Article/detail-
 import { ListBonDeSortieComponent } from './demande/Bon-De-Sortie/list-bon-de-sortie/list-bon-de-sortie.component';
 import { ListeDemandeAchatComponent } from './service-achat/demande-achat/liste-demande-achat/liste-demande-achat.component';
 import { ListeBonDeCommandeComponent } from './service-achat/bon-de-commande/liste-bon-de-commande/liste-bon-de-commande.component';
+import { FormBonDeCommandeComponent } from './service-achat/bon-de-commande/form-bon-de-commande/form-bon-de-commande.component';
+import { FormDemandeAchatComponent } from './service-achat/demande-achat/form-demande-achat/form-demande-achat.component';
 
 FullCalendarModule.registerPlugins([
     dayGridPlugin,
@@ -351,7 +353,9 @@ export function HttpLoaderFactory(http: HttpClient): TranslateHttpLoader {
         DetailDemandeArticleComponent,
         ListBonDeSortieComponent,
         ListeDemandeAchatComponent,
-        ListeBonDeCommandeComponent
+        ListeBonDeCommandeComponent,
+        FormBonDeCommandeComponent,
+        FormDemandeAchatComponent
     ],
     providers: [
         {

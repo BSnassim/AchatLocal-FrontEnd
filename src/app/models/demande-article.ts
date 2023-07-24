@@ -1,4 +1,5 @@
 import { Article } from "./article";
+import { Categorie } from "./categorie";
 import { Utilisateur } from "./utilisateur";
 
 export class DemandeArticle {
@@ -8,5 +9,7 @@ export class DemandeArticle {
     besoin?: string;
     article?: Article;
     demandeur?: Utilisateur;
-    extraDetails?: string;
+    etat?: string;
+    extraArticle?: string;
+    extraCategorie?: Categorie;
 }

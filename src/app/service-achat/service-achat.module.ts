@@ -3,9 +3,8 @@ import { CommonModule } from '@angular/common';
 
 import { ServiceAchatRoutingModule } from './service-achat-routing.module';
 
-
 @NgModule({
-  declarations: [],
+  declarations: [ ],
   imports: [
     CommonModule,
     ServiceAchatRoutingModule
