@@ -70,34 +70,25 @@ export class FormUserComponent implements OnInit {
   };
 
   async onSubmit() {
-    // if (this.userToEdit == null) {
-
-    //   this.userService.getUserById(this.cin).subscribe(dataU => {
-    //     if (dataU != null) {
-    //       this.errorCIN = "CIN existe déja";
-    //       this.userService.emailAlreadyExists(this.email).subscribe(data => {
-    //         if (data != null) {
-    //           this.errorEmail = "Email existe déjà";
-    //         }
-    //       });
-    //     } else {
-    //       this.errorCIN = "";
-    //       this.userService.emailAlreadyExists(this.email).subscribe(data => {
-    //         if (data != null) {
-    //           this.errorEmail = "Email existe déjà";
-    //         } else {
-    //           this.user.profil = this.selectedProfil;
-    //           this.user.agence = this.selectedAgence;
-    //           this.user.nom = this.nom;
-    //           this.user.prenom = this.prenom;
-    //           this.user.dateNais = this.dateN;
-    //           this.user.email = this.email;
-    //           this.user.password = this.password;
-    //           this.user.tel = this.tel;
-    //           this.user.id = this.cin;
-    //           this.userService.addUser(this.user).subscribe();
-    //           this.closeDialog.emit(false);
-    //         };
+    if (this.userToEdit == null) {
+          this.userService.getUtilisateurByEmail(this.email).subscribe(data => {
+            if (data != null) {
+              this.errorEmail = "Email existe déjà";
+            }
+            else {
+                  this.user = {
+                    departement:this.selectedDepartement,
+                    email:this.email,
+                    nom:this.nom,
+                    prenom:this.prenom,
+                    password:this.password,
+                    role:this.selectedRole,
+                  };
+                  this.userService.addUtilisateur(this.user).subscribe();
+                  this.closeDialog.emit(false);
+                };
+          });
+        }
     //       });
     //     }
     //   })

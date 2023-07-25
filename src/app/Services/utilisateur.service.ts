@@ -47,4 +47,8 @@ export class UtilisateurService {
     );
   }
 
+  getUtilisateurByEmail(email: string): Observable<Utilisateur>{
+    return this.http.get<Utilisateur>(URL+"/email/"+email);
+  }
+
 }

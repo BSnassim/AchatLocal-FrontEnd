@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
 import { MessageService, ConfirmationService, Message } from 'primeng/api';
 import { ArticleService } from 'src/app/Services/article.service';
 import { CategorieService } from 'src/app/Services/categorie.service';
@@ -35,6 +36,7 @@ export class FormDemandeArticleComponent implements OnInit {
   details: string;
 
   constructor(private breadcrumbService: AppBreadcrumbService,
+    private router: Router,
     private messageService: MessageService,
     private confirmationService: ConfirmationService,
     private categorieService: CategorieService,
@@ -72,7 +74,7 @@ export class FormDemandeArticleComponent implements OnInit {
   }
 
   validateForm(): boolean {
-    return ((this.selectedArticle != null || this.details != null) && this.quantite != null && this.besoin != null);
+    return ((this.selectedArticle != null || this.details != null) && this.selectedCategorie && this.quantite != null && this.besoin != null);
   }
 
   showErrorViaMessages() {
@@ -108,6 +110,7 @@ export class FormDemandeArticleComponent implements OnInit {
           };
           this.demandeArticleService.addDemandeArticle(d).subscribe();
           this.messageService.add({ severity: 'réussi', summary: 'Réussi', detail: 'Demande envoyé', life: 3000 });
+          setTimeout(() => this.router.navigate([""]), 1000);
         }
       });
     }

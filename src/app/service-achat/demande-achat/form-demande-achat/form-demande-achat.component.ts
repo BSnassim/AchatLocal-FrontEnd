@@ -1,8 +1,10 @@
 import { Component, OnInit } from '@angular/core';
+import { ActivatedRoute } from '@angular/router';
 import { ConfirmationService, Message, MessageService } from 'primeng/api';
 import { ArticleService } from 'src/app/Services/article.service';
 import { CategorieService } from 'src/app/Services/categorie.service';
 import { DemandeAchatService } from 'src/app/Services/demande-achat.service';
+import { DemandeArticleService } from 'src/app/Services/demande-article.service';
 import { AppBreadcrumbService } from 'src/app/main/app-breadcrumb/app.breadcrumb.service';
 import { Article } from 'src/app/models/article';
 import { Categorie } from 'src/app/models/categorie';
@@ -33,7 +35,9 @@ export class FormDemandeAchatComponent implements OnInit {
     private confirmationService: ConfirmationService,
     private categorieService: CategorieService,
     private demandeAchatService: DemandeAchatService,
-    private articleService: ArticleService) {
+    private articleService: ArticleService,
+    private demandeArticleService: DemandeArticleService,
+    private route: ActivatedRoute) {
     this.breadcrumbService.setItems([
       {
         label: "Demandes d'achat",
@@ -48,7 +52,17 @@ export class FormDemandeAchatComponent implements OnInit {
   ngOnInit(): void {
     this.categorieService.getCategoriesByType("Demande d'achat").subscribe((data) => {
       this.categorieList = data;
-    })
+    });
+    this.route.params.subscribe((params) => {
+      this.demandeArticleService.getDemandeArticleById(params.id).subscribe(data => {
+        if (data != null) {
+          this.quantite = data.quantite;
+          this.selectedCategorie = data.article.categorie;
+          this.onCategorieSelect();
+          this.selectedArticle = data.article;
+        }
+      });
+    });
   }
 
   onCategorieSelect() {
