@@ -20,6 +20,10 @@ export class FormDemandeAchatComponent implements OnInit {
 
   msgs: Message[] = [];
 
+  hidden: boolean = false;
+
+  extraArticle: string;
+
   categorieList: Categorie[];
 
   selectedCategorie: Categorie;
@@ -56,10 +60,18 @@ export class FormDemandeAchatComponent implements OnInit {
     this.route.params.subscribe((params) => {
       this.demandeArticleService.getDemandeArticleById(params.id).subscribe(data => {
         if (data != null) {
-          this.quantite = data.quantite;
-          this.selectedCategorie = data.article.categorie;
-          this.onCategorieSelect();
-          this.selectedArticle = data.article;
+          if (data.article == null) {
+            this.hidden = true;
+            this.quantite = data.quantite;
+            this.selectedCategorie = data.extraCategorie;
+            this.extraArticle = data.extraArticle;
+          }
+          else {
+            this.quantite = data.quantite;
+            this.selectedCategorie = data.article.categorie;
+            this.onCategorieSelect();
+            this.selectedArticle = data.article;
+          }
         }
       });
     });
@@ -93,7 +105,7 @@ export class FormDemandeAchatComponent implements OnInit {
             dateAchat: new Date(),
             article: this.selectedArticle,
             quantite: this.quantite,
-
+            extraArticle: this.extraArticle
           }
           this.demandeAchatService.addDemandeAchat(d).subscribe();
           this.messageService.add({ severity: 'réussi', summary: 'Réussi', detail: 'Demande envoyé', life: 3000 });
@@ -103,6 +115,14 @@ export class FormDemandeAchatComponent implements OnInit {
     else {
       this.showErrorViaMessages();
     }
+  }
+
+  changeType() {
+    this.hidden = !this.hidden;
+    this.selectedCategorie = null;
+    this.selectedArticle = null;
+    this.extraArticle = null;
+    this.articleList = null;
   }
 
 }

@@ -6,5 +6,6 @@ export class DemandeAchat {
     dateAchat?: Date;
     quantite?: number;
     article?: Article;
+    extraArticle?: string;
     magasinier?: Utilisateur;
 }

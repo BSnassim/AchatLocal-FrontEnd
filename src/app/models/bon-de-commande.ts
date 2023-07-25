@@ -6,5 +6,6 @@ export class BonDeCommande {
     dateCommande?: Date;
     quantite?: number;
     article?: Article;
+    extraArticle?: string;
     magasinier?: Utilisateur;
 }

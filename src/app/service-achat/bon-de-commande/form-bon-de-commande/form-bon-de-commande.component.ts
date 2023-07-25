@@ -54,15 +54,24 @@ export class FormBonDeCommandeComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.categorieService.getCategoriesByType("Bon de commande").subscribe((data) => {
+    this.categorieService.getCategoriesByType("Demande d'achat").subscribe((data) => {
       this.categorieList = data;
     });
     this.route.params.subscribe((params) => {
       this.demandeArticleService.getDemandeArticleById(params.id).subscribe(data => {
         if (data != null) {
-          this.quantite = data.quantite;
-          this.selectedCategorie = data.article.categorie;
-          this.selectedArticle = data.article;
+          if (data.article == null) {
+            this.hidden = true;
+            this.quantite = data.quantite;
+            this.selectedCategorie = data.extraCategorie;
+            this.extraArticle = data.extraArticle;
+          }
+          else {
+            this.quantite = data.quantite;
+            this.selectedCategorie = data.article.categorie;
+            this.onCategorieSelect();
+            this.selectedArticle = data.article;
+          }
         }
       });
     });
@@ -96,7 +105,7 @@ export class FormBonDeCommandeComponent implements OnInit {
             dateCommande: new Date(),
             article: this.selectedArticle,
             quantite: this.quantite,
-
+            extraArticle: this.extraArticle
           }
           this.bonDeCommandeService.addBonDeCommande(b).subscribe();
           this.messageService.add({ severity: 'réussi', summary: 'Réussi', detail: 'Commande envoyé', life: 3000 });
@@ -106,6 +115,14 @@ export class FormBonDeCommandeComponent implements OnInit {
     else {
       this.showErrorViaMessages();
     }
+  }
+
+  changeType() {
+    this.hidden = !this.hidden;
+    this.selectedCategorie = null;
+    this.selectedArticle = null;
+    this.extraArticle = null;
+    this.articleList = null;
   }
 
 }
