@@ -178,6 +178,7 @@ import { ListeDemandeAchatComponent } from './service-achat/demande-achat/liste-
 import { ListeBonDeCommandeComponent } from './service-achat/bon-de-commande/liste-bon-de-commande/liste-bon-de-commande.component';
 import { FormBonDeCommandeComponent } from './service-achat/bon-de-commande/form-bon-de-commande/form-bon-de-commande.component';
 import { FormDemandeAchatComponent } from './service-achat/demande-achat/form-demande-achat/form-demande-achat.component';
+import { HistoriqueArticleComponent } from './magasinier/Articles/historique-article/historique-article.component';
 
 FullCalendarModule.registerPlugins([
     dayGridPlugin,
@@ -355,7 +356,8 @@ export function HttpLoaderFactory(http: HttpClient): TranslateHttpLoader {
         ListeDemandeAchatComponent,
         ListeBonDeCommandeComponent,
         FormBonDeCommandeComponent,
-        FormDemandeAchatComponent
+        FormDemandeAchatComponent,
+        HistoriqueArticleComponent
     ],
     providers: [
         {

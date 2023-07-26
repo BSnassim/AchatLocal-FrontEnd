@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { ConfirmationService, MessageService } from 'primeng/api';
 import { BonDeCommandeService } from 'src/app/Services/bon-de-commande.service';
@@ -6,10 +6,10 @@ import { BonDeSortieService } from 'src/app/Services/bon-de-sortie.service';
 import { DemandeAchatService } from 'src/app/Services/demande-achat.service';
 import { DemandeArticleService } from 'src/app/Services/demande-article.service';
 import { AppBreadcrumbService } from 'src/app/main/app-breadcrumb/app.breadcrumb.service';
-import { BonDeCommande } from 'src/app/models/bon-de-commande';
 import { BonDeSortie } from 'src/app/models/bon-de-sortie';
-import { DemandeAchat } from 'src/app/models/demande-achat';
 import { DemandeArticle } from 'src/app/models/demande-article';
+import jsPDF from 'jspdf';
+import html2canvas from 'html2canvas';
 
 @Component({
   selector: 'app-detail-demande-article',
@@ -18,7 +18,8 @@ import { DemandeArticle } from 'src/app/models/demande-article';
   providers: [MessageService, ConfirmationService]
 })
 export class DetailDemandeArticleComponent implements OnInit {
-
+  @ViewChild('htmlData') htmlData!: ElementRef;
+  
   demandeArticle: DemandeArticle;
 
   nature: string;
@@ -105,6 +106,10 @@ export class DetailDemandeArticleComponent implements OnInit {
         };
       }
     });
+  }
+
+  openPDF(): void {
+    
   }
 
 }

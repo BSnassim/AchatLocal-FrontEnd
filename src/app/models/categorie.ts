@@ -4,5 +4,4 @@ export class Categorie {
     id?: number;
     libelle?: string;
     typeImportation?: string;
-    articles?: Article[];
 }

@@ -4,8 +4,7 @@ import { CommonModule } from '@angular/common';
 import { MagasinierRoutingModule } from './magasinier-routing.module';
 
 @NgModule({
-  declarations: [
-  ],
+  declarations: [ ],
   imports: [
     CommonModule,
     MagasinierRoutingModule

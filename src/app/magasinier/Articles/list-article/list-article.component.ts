@@ -1,4 +1,5 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
 import { ConfirmationService, MessageService } from 'primeng/api';
 import { Subscription } from 'rxjs';
 import { ArticleService } from 'src/app/Services/article.service';
@@ -30,6 +31,7 @@ export class ListArticleComponent implements OnInit, OnDestroy {
     private breadcrumbService: AppBreadcrumbService,
     private messageService: MessageService,
     private articleService: ArticleService,
+    private router: Router,
     private confirmationService: ConfirmationService) {
 
     this.breadcrumbService.setItems([
@@ -122,6 +124,11 @@ export class ListArticleComponent implements OnInit, OnDestroy {
   //     }
   //     return id;
   // }
+
+  toHistory(id:number){
+    let v1 = id;
+    this.router.navigate(["magasinier/historique-article",{id:v1}]);
+  }
 
   ngOnDestroy(): void {
     this.subscription.unsubscribe();

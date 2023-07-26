@@ -1,7 +1,7 @@
 <div class="card info">
     <p-toast></p-toast>
 
-    <table>
+    <table id="htmlData">
         <tr>
             <td>
                 <h5>Demandeur : </h5>
@@ -63,5 +63,6 @@
         </tr>
     </table>
     <button (click)="submit()" pButton pRipple class="p-button-primary"> {{nature}} </button>
+    <button pButton pRipple class="p-button-primary" (click)="openPDF()">Export PDF</button>
     <p-confirmDialog [style]="{width: '450px'}"></p-confirmDialog>
 </div>

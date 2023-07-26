@@ -1,0 +1,81 @@
+<p-table #dt1 [value]="historiqueList" [columns]="cols" dataKey="id" [rows]="10" [showCurrentPageReport]="true"
+    [rowsPerPageOptions]="[10, 25, 50]" [paginator]="true"
+    currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries"
+    [globalFilterFields]="['dateHistorique','country.name', 'representative.name', 'status']">
+    <ng-template pTemplate="caption">
+        <div class="flex">
+            <span class="p-input-icon-left ml-auto">
+                <i class="pi pi-search"></i>
+                <input pInputText type="text" (input)="dt1.filterGlobal($event.target.value, 'contains')"
+                    placeholder="Search keyword" />
+            </span>
+        </div>
+    </ng-template>
+    <ng-template pTemplate="header">
+        <tr>
+            <th style="min-width:10rem">
+                <div class="flex align-items-center">
+                    Date
+                    <p-columnFilter type="date" field="dateHistorique" display="menu"></p-columnFilter>
+                </div>
+            </th>
+            <th style="min-width:15rem">
+                <div class="flex align-items-center">
+                    Categorie
+                    <p-columnFilter type="text" field="article.categorie.libelle" display="menu"></p-columnFilter>
+                </div>
+            </th>
+            <th style="min-width:15rem">
+                <div class="flex align-items-center">
+                    Article
+                    <p-columnFilter type="text" field="article.libelle" display="menu"></p-columnFilter>
+                </div>
+            </th>
+            <th style="min-width:15rem">
+                <div class="flex align-items-center">
+                    Entrée
+                    <p-columnFilter type="numeric" field="entre" display="menu"></p-columnFilter>
+                </div>
+            </th>
+            <th style="min-width:10rem">
+                <div class="flex align-items-center">
+                    Sortie
+                    <p-columnFilter type="numeric" field="sortie" display="menu"></p-columnFilter>
+                </div>
+            </th>
+            <th style="min-width:10rem">
+                <div class="flex align-items-center">
+                    Magasinier
+                    <p-columnFilter type="text" field="magasinier.nom" display="menu"></p-columnFilter>
+                </div>
+            </th>
+        </tr>
+    </ng-template>
+    <ng-template pTemplate="body" let-historique>
+        <tr>
+            <td>
+                {{ historique.dateHistorique | date: 'dd/MM/yyyy' }}
+            </td>
+            <td>
+                {{ historique.article.categorie.libelle }}
+            </td>
+            <td>
+                {{ historique.article.libelle }}
+            </td>
+            <td>
+                {{ historique?.entre }}
+            </td>
+            <td>
+                {{ historique?.sortie }}
+            </td>
+            <td>
+                {{ historique.magasinier.nom }} {{ historique.magasinier.prenom }}
+            </td>
+        </tr>
+    </ng-template>
+    <ng-template pTemplate="emptymessage">
+        <tr>
+            <td colspan="7">No customers found.</td>
+        </tr>
+    </ng-template>
+</p-table>
