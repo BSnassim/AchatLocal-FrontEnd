@@ -1,5 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
+import jsPDF from 'jspdf';
+import autoTable from 'jspdf-autotable';
 import { MessageService, ConfirmationService } from 'primeng/api';
 import { BonDeCommandeService } from 'src/app/Services/bon-de-commande.service';
 import { AppBreadcrumbService } from 'src/app/main/app-breadcrumb/app.breadcrumb.service';
@@ -44,6 +46,28 @@ export class ListeBonDeCommandeComponent implements OnInit {
     this.bonDeCommandeService.getBonDeCommandes().subscribe((data) => {
       this.bonCommandeList = data;
     });
+  }
+
+  downloadPDF(bon : BonDeCommande): void {
+    let pdf = new jsPDF();
+    let article = bon.article == null ? bon.extraArticle : bon.article.libelle;
+    autoTable(pdf, {
+      head: [[
+        'Date du commande',
+        'Magasinier',
+        'Article',
+        'Quantité']],
+      body: [
+        [
+          bon.dateCommande.toString(), 
+          bon.magasinier.nom+" "+bon.magasinier.prenom,
+          article,
+          bon.quantite
+        ]
+      ],
+    });
+
+    pdf.save('Bon de commande - '+bon.id+' - '+bon.dateCommande+'.pdf')
   }
 
 

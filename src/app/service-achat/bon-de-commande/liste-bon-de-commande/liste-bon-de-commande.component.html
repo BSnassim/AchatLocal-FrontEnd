@@ -43,7 +43,7 @@
                         <td>{{ bonDeCommande.quantite }}</td>
                         <td>{{ bonDeCommande.magasinier.nom }}</td>
                         <td>{{ bonDeCommande.dateCommande | date: 'dd/MM/yyyy'}}</td>
-                        <td><button (click)="redirectToDetails(bonDeCommande)" pButton pRipple label="Voir plus de détails"
+                        <td><button (click)="downloadPDF(bonDeCommande)" pButton pRipple label="PDF"
                                 class="p-button-primary"></button></td>
                     </tr>
                 </ng-template>

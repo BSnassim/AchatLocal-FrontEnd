@@ -1,5 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
+import jsPDF from 'jspdf';
+import autoTable from 'jspdf-autotable';
 import { MessageService, ConfirmationService } from 'primeng/api';
 import { DemandeAchatService } from 'src/app/Services/demande-achat.service';
 import { AppBreadcrumbService } from 'src/app/main/app-breadcrumb/app.breadcrumb.service';
@@ -43,6 +45,28 @@ export class ListeDemandeAchatComponent implements OnInit {
     this.demandeAchatService.getDemandeAchat().subscribe((data) => {
       this.demandeAchatList = data;
     });
+  }
+
+  downloadPDF(demande : DemandeAchat): void {
+    let pdf = new jsPDF();
+    let article = demande.article == null ? demande.extraArticle : demande.article.libelle;
+    autoTable(pdf, {
+      head: [[
+        'Date du commande',
+        'Magasinier',
+        'Article',
+        'Quantité']],
+      body: [
+        [
+          demande.dateAchat.toString(), 
+          demande.magasinier.nom+" "+demande.magasinier.prenom,
+          article,
+          demande.quantite
+        ]
+      ],
+    });
+
+    pdf.save('Demande achat - '+demande.id+' - '+demande.dateAchat+'.pdf')
   }
 
 }

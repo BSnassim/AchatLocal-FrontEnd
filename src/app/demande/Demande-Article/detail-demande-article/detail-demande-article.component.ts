@@ -1,5 +1,6 @@
 import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
+import jsPDF from 'jspdf';
 import { ConfirmationService, MessageService } from 'primeng/api';
 import { BonDeCommandeService } from 'src/app/Services/bon-de-commande.service';
 import { BonDeSortieService } from 'src/app/Services/bon-de-sortie.service';
@@ -8,8 +9,8 @@ import { DemandeArticleService } from 'src/app/Services/demande-article.service'
 import { AppBreadcrumbService } from 'src/app/main/app-breadcrumb/app.breadcrumb.service';
 import { BonDeSortie } from 'src/app/models/bon-de-sortie';
 import { DemandeArticle } from 'src/app/models/demande-article';
-import jsPDF from 'jspdf';
-import html2canvas from 'html2canvas';
+import autoTable from 'jspdf-autotable'
+
 
 @Component({
   selector: 'app-detail-demande-article',
@@ -18,8 +19,7 @@ import html2canvas from 'html2canvas';
   providers: [MessageService, ConfirmationService]
 })
 export class DetailDemandeArticleComponent implements OnInit {
-  @ViewChild('htmlData') htmlData!: ElementRef;
-  
+
   demandeArticle: DemandeArticle;
 
   nature: string;
@@ -109,7 +109,24 @@ export class DetailDemandeArticleComponent implements OnInit {
   }
 
   openPDF(): void {
-    
+    let pdf = new jsPDF();
+    autoTable(pdf, {
+      head: [[
+        'Date du demande',
+        'Département',
+        'Article',
+        'Quantité']],
+      body: [
+        [
+          this.demandeArticle.dateDa.toString(), 
+          this.demandeArticle.demandeur.departement.nom, 
+          this.demandeArticle.article.libelle,
+          this.demandeArticle.quantite
+        ]
+      ],
+    })
+
+    pdf.save('Demande - '+this.demandeArticle.id+' - '+this.demandeArticle.dateDa+'.pdf')
   }
 
 }

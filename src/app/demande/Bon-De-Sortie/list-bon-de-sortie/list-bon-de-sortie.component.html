@@ -41,8 +41,9 @@
                         <td>{{ bonDeSortie.demandeArticle.article.libelle }}</td>
                         <td>{{ bonDeSortie.demandeArticle.quantite }}</td>
                         <td>{{ bonDeSortie.demandeArticle.demandeur.departement.nom }}</td>
+                        <td>{{ bonDeSortie.magasinier.nom }} {{ bonDeSortie.magasinier.prenom }}</td>
                         <td>{{ bonDeSortie.dateSortie | date: 'dd/MM/yyyy'}}</td>
-                        <td><button (click)="redirectToDetails(demande)" pButton pRipple label="Voir plus de détails"
+                        <td><button (click)="downloadPDF(bonDeSortie)" pButton pRipple label="PDF"
                                 class="p-button-primary"></button></td>
                     </tr>
                 </ng-template>

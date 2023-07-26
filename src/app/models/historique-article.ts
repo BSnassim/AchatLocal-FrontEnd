@@ -3,8 +3,8 @@ import { Utilisateur } from "./utilisateur";
 
 export class HistoriqueArticle {
     id?:number;
-    entre?:string;
-    sortie?:string;
+    entre?:number;
+    sortie?:number;
     dateHistorique?: Date;
     article?:Article;
     magasinier?:Utilisateur;

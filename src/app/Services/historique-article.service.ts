@@ -3,6 +3,7 @@ import { Injectable } from '@angular/core';
 import { Observable, Subject } from 'rxjs';
 import { environment } from 'src/environments/environment.dev';
 import { HistoriqueArticle } from '../models/historique-article';
+import { tap } from 'rxjs/operators';
 
 const URL = environment.apiURL + "/historiqueArticle";
 
@@ -20,6 +21,14 @@ export class HistoriqueArticleService {
 
   getHistoriqueByArticle(id:number): Observable<HistoriqueArticle[]> {
     return this.http.get<HistoriqueArticle[]>(URL+"/article/"+id);
+  }
+
+  addHistoriqueArticle(HistoriqueArticle: HistoriqueArticle) {
+    return this.http.post<HistoriqueArticle>(URL, HistoriqueArticle).pipe(
+      tap(() =>{
+        this._refresh$.next();
+      })
+    )
   }
 
 }

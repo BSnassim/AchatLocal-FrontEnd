@@ -43,7 +43,7 @@
                         <td>{{ demandeAchat.quantite }}</td>
                         <td>{{ demandeAchat.magasinier.nom }} {{ demandeAchat.magasinier.prenom }}</td>
                         <td>{{ demandeAchat.dateAchat | date: 'dd/MM/yyyy'}}</td>
-                        <td><button (click)="redirectToDetails(demandeAchat)" pButton pRipple label="Voir plus de détails"
+                        <td><button (click)="downloadPDF(demandeAchat)" pButton pRipple label="PDF"
                                 class="p-button-primary"></button></td>
                     </tr>
                 </ng-template>

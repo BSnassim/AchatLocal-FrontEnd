@@ -1,5 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
+import jsPDF from 'jspdf';
+import autoTable from 'jspdf-autotable';
 import { MessageService, ConfirmationService } from 'primeng/api';
 import { BonDeSortieService } from 'src/app/Services/bon-de-sortie.service';
 import { AppBreadcrumbService } from 'src/app/main/app-breadcrumb/app.breadcrumb.service';
@@ -44,6 +46,29 @@ export class ListBonDeSortieComponent implements OnInit {
     this.bonDeSortieService.getBonDeSorties().subscribe((data) => {
       this.bonSortieList = data;
     });
+  }
+
+  downloadPDF(bon : BonDeSortie): void {
+    let pdf = new jsPDF();
+    autoTable(pdf, {
+      head: [[
+        'Date de sortie',
+        'Département',
+        'Magasinier',
+        'Article',
+        'Quantité']],
+      body: [
+        [
+          bon.dateSortie.toString(), 
+          bon.demandeArticle.demandeur.departement.nom,
+          bon.magasinier.nom+" "+bon.magasinier.prenom,
+          bon.demandeArticle.article.libelle,
+          bon.demandeArticle.quantite
+        ]
+      ],
+    });
+
+    pdf.save('Bon de sortie - '+bon.id+' - '+bon.dateSortie+'.pdf')
   }
 
 }
