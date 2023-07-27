@@ -54,7 +54,7 @@ export class FormBonDeCommandeComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.categorieService.getCategoriesByType("Demande d'achat").subscribe((data) => {
+    this.categorieService.getCategoriesByType("Bon de commande").subscribe((data) => {
       this.categorieList = data;
     });
     this.route.params.subscribe((params) => {

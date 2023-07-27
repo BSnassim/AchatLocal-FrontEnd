@@ -357,7 +357,8 @@ export function HttpLoaderFactory(http: HttpClient): TranslateHttpLoader {
         ListeBonDeCommandeComponent,
         FormBonDeCommandeComponent,
         FormDemandeAchatComponent,
-        HistoriqueArticleComponent
+        HistoriqueArticleComponent,
+        
     ],
     providers: [
         {

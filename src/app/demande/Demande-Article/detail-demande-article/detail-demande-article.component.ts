@@ -109,24 +109,6 @@ export class DetailDemandeArticleComponent implements OnInit {
   }
 
   openPDF(): void {
-    let pdf = new jsPDF();
-    autoTable(pdf, {
-      head: [[
-        'Date du demande',
-        'Département',
-        'Article',
-        'Quantité']],
-      body: [
-        [
-          this.demandeArticle.dateDa.toString(), 
-          this.demandeArticle.demandeur.departement.nom, 
-          this.demandeArticle.article.libelle,
-          this.demandeArticle.quantite
-        ]
-      ],
-    })
-
-    pdf.save('Demande - '+this.demandeArticle.id+' - '+this.demandeArticle.dateDa+'.pdf')
   }
 
 }
