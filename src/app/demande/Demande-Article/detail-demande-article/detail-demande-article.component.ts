@@ -10,6 +10,8 @@ import { AppBreadcrumbService } from 'src/app/main/app-breadcrumb/app.breadcrumb
 import { BonDeSortie } from 'src/app/models/bon-de-sortie';
 import { DemandeArticle } from 'src/app/models/demande-article';
 import autoTable from 'jspdf-autotable'
+import { saveAs } from "file-saver";
+import { base64StringToBlob } from "blob-util";
 
 
 @Component({
@@ -108,25 +110,20 @@ export class DetailDemandeArticleComponent implements OnInit {
     });
   }
 
-  openPDF(): void {
-    let pdf = new jsPDF();
-    autoTable(pdf, {
-      head: [[
-        'Date du demande',
-        'Département',
-        'Article',
-        'Quantité']],
-      body: [
-        [
-          this.demandeArticle.dateDa.toString(), 
-          this.demandeArticle.demandeur.departement.nom, 
-          this.demandeArticle.article.libelle,
-          this.demandeArticle.quantite
-        ]
-      ],
-    })
+  openPDF() {
+    this.demandeArticleService.getDemandeArticlePDF(this.demandeArticle.id).subscribe((content: ArrayBuffer) => {
+      this.createDownloadLink(content);
+    });
+  }
 
-    pdf.save('Demande - '+this.demandeArticle.id+' - '+this.demandeArticle.dateDa+'.pdf')
+  createDownloadLink(pdfData: ArrayBuffer) {
+    const blob = new Blob([pdfData], { type: 'application/pdf' });
+    const url = window.URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    a.href = url;
+    a.download = 'Demande Article.pdf';
+    a.click();
+    window.URL.revokeObjectURL(url);
   }
 
 }
