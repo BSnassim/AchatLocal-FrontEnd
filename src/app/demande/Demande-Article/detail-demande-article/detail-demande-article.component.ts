@@ -1,6 +1,5 @@
 import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
-import jsPDF from 'jspdf';
 import { ConfirmationService, MessageService } from 'primeng/api';
 import { BonDeCommandeService } from 'src/app/Services/bon-de-commande.service';
 import { BonDeSortieService } from 'src/app/Services/bon-de-sortie.service';
@@ -9,8 +8,6 @@ import { DemandeArticleService } from 'src/app/Services/demande-article.service'
 import { AppBreadcrumbService } from 'src/app/main/app-breadcrumb/app.breadcrumb.service';
 import { BonDeSortie } from 'src/app/models/bon-de-sortie';
 import { DemandeArticle } from 'src/app/models/demande-article';
-import autoTable from 'jspdf-autotable'
-
 
 @Component({
   selector: 'app-detail-demande-article',
@@ -25,6 +22,8 @@ export class DetailDemandeArticleComponent implements OnInit {
   nature: string;
 
   articleNull = false;
+
+  bDisabled : boolean = false;
 
   constructor(
     private breadCrumbService: AppBreadcrumbService,
@@ -108,7 +107,20 @@ export class DetailDemandeArticleComponent implements OnInit {
     });
   }
 
-  openPDF(): void {
+  openPDF() {
+    this.demandeArticleService.getDemandeArticlePDF(this.demandeArticle.id).subscribe((content: ArrayBuffer) => {
+      this.createDownloadLink(content);
+    });
+  }
+
+  createDownloadLink(pdfData: ArrayBuffer) {
+    const blob = new Blob([pdfData], { type: 'application/pdf' });
+    const url = window.URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    a.href = url;
+    a.download = 'Demande Article.pdf';
+    a.click();
+    window.URL.revokeObjectURL(url);
   }
 
 }

@@ -4,6 +4,7 @@ import { Observable, Subject } from 'rxjs';
 import { environment } from 'src/environments/environment.dev';
 import { DemandeArticle } from '../models/demande-article';
 import { tap } from 'rxjs/operators';
+import { Byte } from '@angular/compiler/src/util';
 
 const URL = environment.apiURL + "/demandeArticle";
 
@@ -21,6 +22,10 @@ export class DemandeArticleService {
 
   getDemandeArticle(): Observable<DemandeArticle[]> {
     return this.http.get<DemandeArticle[]>(URL);
+  }
+
+  getDemandeArticlePDF(id:number): Observable<any> {
+    return this.http.get(URL+"/pdf/"+id, { responseType: 'arraybuffer' });
   }
 
   getDemandeArticleById(id:number): Observable<DemandeArticle>{
