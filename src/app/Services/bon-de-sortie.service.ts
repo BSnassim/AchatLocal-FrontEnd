@@ -23,6 +23,10 @@ export class BonDeSortieService {
     return this.http.get<BonDeSortie[]>(URL);
   }
 
+  getBonDeSortiePDF(id:number): Observable<any> {
+    return this.http.get(URL+"/pdf/"+id, { responseType: 'arraybuffer' });
+  }
+
   addBonDeSortie(bonDeSortie: BonDeSortie) {
     return this.http.post<BonDeSortie>(URL, bonDeSortie).pipe(
       tap(() => {

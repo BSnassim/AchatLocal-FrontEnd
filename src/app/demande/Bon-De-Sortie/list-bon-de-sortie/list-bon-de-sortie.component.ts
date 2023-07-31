@@ -48,27 +48,20 @@ export class ListBonDeSortieComponent implements OnInit {
     });
   }
 
-  downloadPDF(bon : BonDeSortie): void {
-    let pdf = new jsPDF();
-    autoTable(pdf, {
-      head: [[
-        'Date de sortie',
-        'Département',
-        'Magasinier',
-        'Article',
-        'Quantité']],
-      body: [
-        [
-          bon.dateSortie.toString(), 
-          bon.demandeArticle.demandeur.departement.nom,
-          bon.magasinier.nom+" "+bon.magasinier.prenom,
-          bon.demandeArticle.article.libelle,
-          bon.demandeArticle.quantite
-        ]
-      ],
+  downloadPDF(bon : BonDeSortie) {
+    this.bonDeSortieService.getBonDeSortiePDF(bon.id).subscribe((content: ArrayBuffer) => {
+      this.createDownloadLink(content);
     });
+  }
 
-    pdf.save('Bon de sortie - '+bon.id+' - '+bon.dateSortie+'.pdf')
+  createDownloadLink(pdfData: ArrayBuffer) {
+    const blob = new Blob([pdfData], { type: 'application/pdf' });
+    const url = window.URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    a.href = url;
+    a.download = 'Bon de sortie.pdf';
+    a.click();
+    window.URL.revokeObjectURL(url);
   }
 
 }

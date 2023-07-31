@@ -62,7 +62,8 @@ export class DetailDemandeArticleComponent implements OnInit {
             this.articleNull = true;
           }
           this.getNature(data);
-
+          if( this.demandeArticle.etat == "Terminé")
+          this.bDisabled = true;
         }
       });
     });

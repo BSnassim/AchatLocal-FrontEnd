@@ -23,6 +23,10 @@ export class DemandeAchatService {
     return this.http.get<DemandeAchat[]>(URL);
   }
 
+  getDemandeAchatPDF(id:number): Observable<any> {
+    return this.http.get(URL+"/pdf/"+id, { responseType: 'arraybuffer' });
+  }
+
   addDemandeAchat(demandeAchat: DemandeAchat) {
     return this.http.post<DemandeAchat>(URL, demandeAchat).pipe(
       tap(() => {

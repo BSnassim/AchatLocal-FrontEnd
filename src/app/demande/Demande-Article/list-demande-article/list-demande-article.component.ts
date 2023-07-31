@@ -38,6 +38,7 @@ export class ListDemandeArticleComponent implements OnInit {
       { field: 'demandeur', header: 'Demandeur' },
       { field: 'quantite', header: 'Quantite' },
       { field: 'dateDa', header: 'DateDa' },
+      { field: 'etat', header: 'Etat'}
     ];
 
     this.demandeArticleService.getDemandeArticle().subscribe((data) => {

@@ -2,12 +2,7 @@
     <div class="col-12">
 
         <div class="card">
-            <p-toolbar styleClass="mb-4">
-                <ng-template pTemplate="left">
-                    <button pButton pRipple label="Export" icon="pi pi-upload" class="p-button-help mb-2"
-                        (click)="exportPDF()"></button>
-                </ng-template>
-            </p-toolbar>
+            
 
             <p-table #dt [value]="demandeList" [columns]="cols" [rows]="10" [paginator]="true"
                 [globalFilterFields]="['article.libelle', 'demandeur.departement.nom', 'quantite', 'dateDa']"
@@ -31,6 +26,8 @@
                         <th pSortableColumn="quantite">Quantite <p-sortIcon field="quantite"></p-sortIcon></th>
                         <th pSortableColumn="demandeur.departement.nom">Demandeur <p-sortIcon field="demandeur"></p-sortIcon></th>
                         <th pSortableColumn="dateDa">Date <p-sortIcon field="dateDa"></p-sortIcon></th>
+                        <th pSortableColumn="etat">Etat <p-sortIcon field="etat"></p-sortIcon></th>
+
                         
                         <th></th>
                     </tr>
@@ -44,6 +41,7 @@
                         <td>{{ demande.quantite }}</td>
                         <td>{{ demande.demandeur.departement.nom }}</td>
                         <td>{{ demande.dateDa | date: 'dd/MM/yyyy'}}</td>
+                        <td>{{ demande.etat }}</td>
                         <td><button (click)="redirectToDetails(demande)" pButton pRipple label="Voir plus de détails"
                                 class="p-button-primary"></button></td>
                     </tr>

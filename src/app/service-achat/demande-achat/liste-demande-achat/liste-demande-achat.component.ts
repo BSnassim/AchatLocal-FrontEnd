@@ -47,26 +47,19 @@ export class ListeDemandeAchatComponent implements OnInit {
     });
   }
 
-  downloadPDF(demande : DemandeAchat): void {
-    let pdf = new jsPDF();
-    let article = demande.article == null ? demande.extraArticle : demande.article.libelle;
-    autoTable(pdf, {
-      head: [[
-        'Date du commande',
-        'Magasinier',
-        'Article',
-        'Quantité']],
-      body: [
-        [
-          demande.dateAchat.toString(), 
-          demande.magasinier.nom+" "+demande.magasinier.prenom,
-          article,
-          demande.quantite
-        ]
-      ],
+  downloadPDF(demande : DemandeAchat) {
+    this.demandeAchatService.getDemandeAchatPDF(demande.id).subscribe((content: ArrayBuffer) => {
+      this.createDownloadLink(content);
     });
-
-    pdf.save('Demande achat - '+demande.id+' - '+demande.dateAchat+'.pdf')
   }
 
+  createDownloadLink(pdfData: ArrayBuffer) {
+    const blob = new Blob([pdfData], { type: 'application/pdf' });
+    const url = window.URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    a.href = url;
+    a.download = 'Demande achat.pdf';
+    a.click();
+    window.URL.revokeObjectURL(url);
+  }
 }

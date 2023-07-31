@@ -28,6 +28,14 @@
         </tr>
         <tr>
             <td>
+                <h5>Etat du demande : </h5>
+            </td>
+            <td>
+                <div class="detail">{{demandeArticle?.etat}} </div>
+            </td>
+        </tr>
+        <tr>
+            <td>
                 <h5>Article demandé : </h5>
             </td>
             <td  *ngIf="!articleNull; else elseBlock">
@@ -62,7 +70,7 @@
             </td>
         </tr>
     </table>
-    <button (click)="submit()" pButton pRipple class="p-button-primary"> {{nature}} </button>
+    <button (click)="submit()" [disabled]="bDisabled" pButton pRipple class="p-button-primary"> {{nature}} </button>
     <button style="margin-left: 5px;" pButton pRipple class="p-button-primary" (click)="openPDF()">PDF</button>
     <p-confirmDialog [style]="{width: '450px'}"></p-confirmDialog>
     

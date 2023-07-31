@@ -1,26 +1,42 @@
 import { Injectable } from '@angular/core';
-import {environment} from '../../../environments/environment';
+import {environment} from '../../../environments/environment.dev';
 import {HttpClient} from '@angular/common/http';
+import { Router } from '@angular/router';
+import { Utilisateur } from 'src/app/models/utilisateur';
+import { Observable } from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
 })
 export class TokenService {
-    baseUrl = environment.adminURL + '/unsecured/token';
+    baseUrl = environment.apiURL + "/authenticate";
+    url = environment.apiURL;
 
-    constructor(private http: HttpClient) { }
-    getToken(){
-        return localStorage.getItem('sbeToken');
+    constructor(private http: HttpClient, private router: Router) {}
+    getToken() {
+        return sessionStorage.getItem("access token");
     }
-    setToken(token: string){
-        localStorage.setItem('sbeToken', token);
+    setToken(token: string) {
+        sessionStorage.setItem("access token", token);
     }
-    removeToken(){
-        localStorage.removeItem('sbeToken');
+    removeToken() {
+        sessionStorage.removeItem("access token");
     }
 
-    // Used in the interceptor to refresh the current token
-    refreshToken(){
-        return this.http.post(this.baseUrl + '/refresh', this.getToken());
+    // Used to get the user details using his token
+    getUser(): Observable<Utilisateur> {
+        return this.http.get<Utilisateur>(
+            this.url + "/getUserByToken/" + this.getToken()
+        );
+    }
+
+    // Used to check if string matches encoded password
+    checkPassword(rawPassword: string, encodedPassword: string) {
+        return this.http.get(this.baseUrl + "/checkPassword", {
+            params: {
+                rawPassword: rawPassword,
+                encodedPassword: encodedPassword,
+            },
+        });
     }
 }

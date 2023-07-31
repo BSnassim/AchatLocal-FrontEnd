@@ -24,6 +24,10 @@ export class BonDeCommandeService {
     return this.http.get<BonDeCommande[]>(URL);
   }
 
+  getBonDeCommandePDF(id:number): Observable<any> {
+    return this.http.get(URL+"/pdf/"+id, { responseType: 'arraybuffer' });
+  }
+
   addBonDeCommande(bonDeCommande: BonDeCommande) {
     return this.http.post<BonDeCommande>(URL, bonDeCommande).pipe(
       tap(() => {

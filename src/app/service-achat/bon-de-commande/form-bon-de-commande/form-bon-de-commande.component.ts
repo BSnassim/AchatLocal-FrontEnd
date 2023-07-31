@@ -9,6 +9,7 @@ import { AppBreadcrumbService } from 'src/app/main/app-breadcrumb/app.breadcrumb
 import { Article } from 'src/app/models/article';
 import { BonDeCommande } from 'src/app/models/bon-de-commande';
 import { Categorie } from 'src/app/models/categorie';
+import { DemandeArticle } from 'src/app/models/demande-article';
 
 @Component({
   selector: 'app-form-bon-de-commande',
@@ -20,6 +21,8 @@ export class FormBonDeCommandeComponent implements OnInit {
   msgs: Message[] = [];
 
   hidden: boolean = false;
+
+  demandeArticle: DemandeArticle;
 
   extraArticle: string;
 
@@ -60,10 +63,12 @@ export class FormBonDeCommandeComponent implements OnInit {
     this.route.params.subscribe((params) => {
       this.demandeArticleService.getDemandeArticleById(params.id).subscribe(data => {
         if (data != null) {
+          this.demandeArticle = data;
           if (data.article == null) {
             this.hidden = true;
             this.quantite = data.quantite;
             this.selectedCategorie = data.extraCategorie;
+            this.onCategorieSelect();
             this.extraArticle = data.extraArticle;
           }
           else {
@@ -105,8 +110,11 @@ export class FormBonDeCommandeComponent implements OnInit {
             dateCommande: new Date(),
             article: this.selectedArticle,
             quantite: this.quantite,
-            extraArticle: this.extraArticle
+            extraArticle: this.extraArticle,
+            extraCategorie: this.selectedCategorie
           }
+          this.demandeArticle.etat = "En cours du traitement";
+          this.demandeArticleService.editDemandeArticle(this.demandeArticle).subscribe();
           this.bonDeCommandeService.addBonDeCommande(b).subscribe();
           this.messageService.add({ severity: 'réussi', summary: 'Réussi', detail: 'Commande envoyé', life: 3000 });
         }

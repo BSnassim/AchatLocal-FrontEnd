@@ -48,27 +48,20 @@ export class ListeBonDeCommandeComponent implements OnInit {
     });
   }
 
-  downloadPDF(bon : BonDeCommande): void {
-    let pdf = new jsPDF();
-    let article = bon.article == null ? bon.extraArticle : bon.article.libelle;
-    autoTable(pdf, {
-      head: [[
-        'Date du commande',
-        'Magasinier',
-        'Article',
-        'Quantité']],
-      body: [
-        [
-          bon.dateCommande.toString(), 
-          bon.magasinier.nom+" "+bon.magasinier.prenom,
-          article,
-          bon.quantite
-        ]
-      ],
+  downloadPDF(bon : BonDeCommande) {
+    this.bonDeCommandeService.getBonDeCommandePDF(bon.id).subscribe((content: ArrayBuffer) => {
+      this.createDownloadLink(content);
     });
-
-    pdf.save('Bon de commande - '+bon.id+' - '+bon.dateCommande+'.pdf')
   }
 
+  createDownloadLink(pdfData: ArrayBuffer) {
+    const blob = new Blob([pdfData], { type: 'application/pdf' });
+    const url = window.URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    a.href = url;
+    a.download = 'Bon de commande.pdf';
+    a.click();
+    window.URL.revokeObjectURL(url);
+  }
 
 }

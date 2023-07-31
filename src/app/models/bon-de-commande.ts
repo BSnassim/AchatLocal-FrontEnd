@@ -1,4 +1,5 @@
 import { Article } from "./article";
+import { Categorie } from "./categorie";
 import { Utilisateur } from "./utilisateur";
 
 export class BonDeCommande {
@@ -7,5 +8,6 @@ export class BonDeCommande {
     quantite?: number;
     article?: Article;
     extraArticle?: string;
+    extraCategorie?: Categorie;
     magasinier?: Utilisateur;
 }
