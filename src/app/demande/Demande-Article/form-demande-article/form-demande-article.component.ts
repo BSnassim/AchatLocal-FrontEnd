@@ -4,10 +4,12 @@ import { MessageService, ConfirmationService, Message } from 'primeng/api';
 import { ArticleService } from 'src/app/Services/article.service';
 import { CategorieService } from 'src/app/Services/categorie.service';
 import { DemandeArticleService } from 'src/app/Services/demande-article.service';
+import { TokenService } from 'src/app/auth/services/token.service';
 import { AppBreadcrumbService } from 'src/app/main/app-breadcrumb/app.breadcrumb.service';
 import { Article } from 'src/app/models/article';
 import { Categorie } from 'src/app/models/categorie';
 import { DemandeArticle } from 'src/app/models/demande-article';
+import { Utilisateur } from 'src/app/models/utilisateur';
 
 @Component({
   selector: 'app-form-demande-article',
@@ -35,13 +37,16 @@ export class FormDemandeArticleComponent implements OnInit {
 
   details: string;
 
+  currentUser : Utilisateur;
+
   constructor(private breadcrumbService: AppBreadcrumbService,
     private router: Router,
     private messageService: MessageService,
     private confirmationService: ConfirmationService,
     private categorieService: CategorieService,
     private demandeArticleService: DemandeArticleService,
-    private articleService: ArticleService) {
+    private articleService: ArticleService,
+    private tokenService: TokenService) {
     this.breadcrumbService.setItems([
       {
         label: "Demandes",
@@ -56,6 +61,9 @@ export class FormDemandeArticleComponent implements OnInit {
   ngOnInit(): void {
     this.categorieService.getCategories().subscribe((data) => {
       this.categorieList = data;
+    });
+    this.tokenService.getUser().subscribe( user => {
+      this.currentUser = user;
     })
   }
 
@@ -98,14 +106,16 @@ export class FormDemandeArticleComponent implements OnInit {
               besoin: this.besoin,
               extraArticle: this.details,
               extraCategorie: this.selectedCategorie,
-              quantite: this.quantite
+              quantite: this.quantite,
+              demandeur: this.currentUser
             }
           } else {
             d = {
               dateDa: new Date(),
               besoin: this.besoin,
               article: this.selectedArticle,
-              quantite: this.quantite
+              quantite: this.quantite,
+              demandeur: this.currentUser
             }
           };
           this.demandeArticleService.addDemandeArticle(d).subscribe();

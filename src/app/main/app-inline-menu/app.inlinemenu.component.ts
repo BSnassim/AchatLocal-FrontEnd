@@ -2,6 +2,8 @@ import {Component} from '@angular/core';
 import {AppMainComponent} from '../app-main/app.main.component';
 import { trigger, state, style, transition, animate } from '@angular/animations';
 import {AuthService} from "../../auth/services/auth.service";
+import { TokenService } from 'src/app/auth/services/token.service';
+import { Utilisateur } from 'src/app/models/utilisateur';
 
 @Component({
     selector: 'app-inlinemenu',
@@ -28,8 +30,18 @@ import {AuthService} from "../../auth/services/auth.service";
     ]
 })
 export class AppInlineMenuComponent {
-    constructor(public appMain: AppMainComponent, private authService: AuthService) {}
-    logout(){
+    currentUser : Utilisateur;
+    constructor(public appMain: AppMainComponent, private authService: AuthService, private tokenService: TokenService) {}
+    ngOnInit(): void {
+        this.loadUser();
+    }
+
+    logout() {
         this.authService.logout();
+    }
+    loadUser() {
+        this.tokenService.getUser().subscribe((data) => {
+            this.currentUser = data;
+        });
     }
 }

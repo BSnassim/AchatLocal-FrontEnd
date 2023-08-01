@@ -1,5 +1,4 @@
 import { Departement } from "./departement";
-import { Role } from "./role";
 
 export class Utilisateur {
     id?: number;
@@ -7,6 +6,6 @@ export class Utilisateur {
     password?: string;
     prenom?: string;
     nom?: string;
-    role?: Role;
+    role?: string;
     departement?: Departement;
 }

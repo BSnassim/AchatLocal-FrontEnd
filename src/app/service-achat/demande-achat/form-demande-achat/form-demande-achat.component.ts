@@ -1,15 +1,17 @@
 import { Component, OnInit } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { ConfirmationService, Message, MessageService } from 'primeng/api';
 import { ArticleService } from 'src/app/Services/article.service';
 import { CategorieService } from 'src/app/Services/categorie.service';
 import { DemandeAchatService } from 'src/app/Services/demande-achat.service';
 import { DemandeArticleService } from 'src/app/Services/demande-article.service';
+import { TokenService } from 'src/app/auth/services/token.service';
 import { AppBreadcrumbService } from 'src/app/main/app-breadcrumb/app.breadcrumb.service';
 import { Article } from 'src/app/models/article';
 import { Categorie } from 'src/app/models/categorie';
 import { DemandeAchat } from 'src/app/models/demande-achat';
 import { DemandeArticle } from 'src/app/models/demande-article';
+import { Utilisateur } from 'src/app/models/utilisateur';
 
 @Component({
   selector: 'app-form-demande-achat',
@@ -37,6 +39,8 @@ export class FormDemandeAchatComponent implements OnInit {
 
   quantite: number;
 
+  currentUser : Utilisateur;
+
   constructor(private breadcrumbService: AppBreadcrumbService,
     private messageService: MessageService,
     private confirmationService: ConfirmationService,
@@ -44,6 +48,8 @@ export class FormDemandeAchatComponent implements OnInit {
     private demandeAchatService: DemandeAchatService,
     private articleService: ArticleService,
     private demandeArticleService: DemandeArticleService,
+    private router: Router,
+    private tokenService: TokenService,
     private route: ActivatedRoute) {
     this.breadcrumbService.setItems([
       {
@@ -80,6 +86,9 @@ export class FormDemandeAchatComponent implements OnInit {
         }
       });
     });
+    this.tokenService.getUser().subscribe( user => {
+      this.currentUser = user;
+    });
   }
 
   onCategorieSelect() {
@@ -111,12 +120,14 @@ export class FormDemandeAchatComponent implements OnInit {
             article: this.selectedArticle,
             quantite: this.quantite,
             extraArticle: this.extraArticle,
-            extraCategorie: this.selectedCategorie
+            extraCategorie: this.selectedCategorie,
+            magasinier: this.currentUser
           }
           this.demandeArticle.etat = "En cours du traitement";
           this.demandeArticleService.editDemandeArticle(this.demandeArticle).subscribe();
           this.demandeAchatService.addDemandeAchat(d).subscribe();
           this.messageService.add({ severity: 'réussi', summary: 'Réussi', detail: 'Demande envoyé', life: 3000 });
+          setTimeout(() => this.router.navigate(["demande/Liste-demande-achat"]), 1000);
         }
       });
     }

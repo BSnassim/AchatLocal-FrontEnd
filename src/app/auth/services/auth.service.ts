@@ -23,14 +23,14 @@ export class AuthService {
 
     savePermissions(role: string) {
         let r = role;
-        let res = this.encrypter.encrypt(JSON.stringify(r));
+        let res = this.encrypter.encrypt(r);
         sessionStorage.setItem("permissions", res);
     }
     getPermissions() {
         let perms = this.encrypter.decrypt(
             sessionStorage.getItem("permissions")
         );
-        let res = JSON.parse(perms);
+        let res : string[] = [perms];
         return res;
     }
     login(u: LoginUser): Observable<any> {

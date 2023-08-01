@@ -5,11 +5,13 @@ import { ArticleService } from 'src/app/Services/article.service';
 import { BonDeCommandeService } from 'src/app/Services/bon-de-commande.service';
 import { CategorieService } from 'src/app/Services/categorie.service';
 import { DemandeArticleService } from 'src/app/Services/demande-article.service';
+import { TokenService } from 'src/app/auth/services/token.service';
 import { AppBreadcrumbService } from 'src/app/main/app-breadcrumb/app.breadcrumb.service';
 import { Article } from 'src/app/models/article';
 import { BonDeCommande } from 'src/app/models/bon-de-commande';
 import { Categorie } from 'src/app/models/categorie';
 import { DemandeArticle } from 'src/app/models/demande-article';
+import { Utilisateur } from 'src/app/models/utilisateur';
 
 @Component({
   selector: 'app-form-bon-de-commande',
@@ -36,6 +38,8 @@ export class FormBonDeCommandeComponent implements OnInit {
 
   quantite: number;
 
+  currentUser: Utilisateur;
+
   constructor(private breadcrumbService: AppBreadcrumbService,
     private messageService: MessageService,
     private confirmationService: ConfirmationService,
@@ -44,6 +48,7 @@ export class FormBonDeCommandeComponent implements OnInit {
     private demandeArticleService: DemandeArticleService,
     private articleService: ArticleService,
     private router: Router,
+    private tokenService: TokenService,
     private route: ActivatedRoute) {
     this.breadcrumbService.setItems([
       {
@@ -80,6 +85,9 @@ export class FormBonDeCommandeComponent implements OnInit {
         }
       });
     });
+    this.tokenService.getUser().subscribe( user => {
+      this.currentUser = user;
+    })
   }
 
   onCategorieSelect() {
@@ -111,12 +119,14 @@ export class FormBonDeCommandeComponent implements OnInit {
             article: this.selectedArticle,
             quantite: this.quantite,
             extraArticle: this.extraArticle,
-            extraCategorie: this.selectedCategorie
+            extraCategorie: this.selectedCategorie,
+            magasinier: this.currentUser
           }
           this.demandeArticle.etat = "En cours du traitement";
           this.demandeArticleService.editDemandeArticle(this.demandeArticle).subscribe();
           this.bonDeCommandeService.addBonDeCommande(b).subscribe();
           this.messageService.add({ severity: 'réussi', summary: 'Réussi', detail: 'Commande envoyé', life: 3000 });
+          setTimeout(() => this.router.navigate(["demande/Liste-bon-de-commande"]), 1000);
         }
       });
     }

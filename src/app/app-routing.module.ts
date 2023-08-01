@@ -6,12 +6,13 @@ import {AppErrorComponent} from './pages/app.error.component';
 import {AppAccessdeniedComponent} from './pages/app.accessdenied.component';
 import {mainRoutes, MainRoutingModule} from './main/main-routing.module';
 import {authRoutes} from './auth/auth-routing.module';
+import { AuthGuardService } from './auth/guards/auth-guard.service';
 
 @NgModule({
     imports: [
         RouterModule.forRoot([
             {
-                path: '', component: AppMainComponent,
+                path: '', component: AppMainComponent, canActivate:[AuthGuardService],
                 children: [
                     ...mainRoutes
                 ]

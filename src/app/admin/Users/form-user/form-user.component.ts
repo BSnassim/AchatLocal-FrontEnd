@@ -1,9 +1,8 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { DepartementService } from 'src/app/Services/departement.service';
-import { RoleService } from 'src/app/Services/role.service';
 import { UtilisateurService } from 'src/app/Services/utilisateur.service';
+import { TokenService } from 'src/app/auth/services/token.service';
 import { Departement } from 'src/app/models/departement';
-import { Role } from 'src/app/models/role';
 import { Utilisateur } from 'src/app/models/utilisateur';
 
 @Component({
@@ -15,9 +14,9 @@ export class FormUserComponent implements OnInit {
   @Input() userToEdit: Utilisateur;
   @Output() closeDialog = new EventEmitter<boolean>();
 
-  roles: Role[];
+  roles = ["Administrateur", "Service achat", "Magasinier", "Utilisateur"];
 
-  selectedRole: Role;
+  selectedRole: string;
 
   departements: Departement[];
 
@@ -45,16 +44,13 @@ export class FormUserComponent implements OnInit {
 
   noSpecial = /^[a-zàâçéèêëîïôûùüÿñæœ .-]*$/i
 
-  constructor(private roleService: RoleService,
+  constructor(
     private departementService: DepartementService,
     private userService: UtilisateurService,
-    // private tokenService: TokenService
+    private tokenService: TokenService
     ) { }
 
   ngOnInit(): void {
-    this.roleService.getRoles().subscribe(data => {
-      this.roles = data;
-    });
     this.departementService.getDepartements().subscribe( data => {
       this.departements = data;
     });

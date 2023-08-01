@@ -50,7 +50,7 @@ export class LoginComponent implements OnInit {
                 (response) => {
                     this.tokenService.setToken(response.token);
                     // Add roles to permission service
-                    this.authService.savePermissions(response.roles);
+                    this.authService.savePermissions(response.role);
                     this.permissionsService.loadPermissions(
                         this.authService.getPermissions()
                     );

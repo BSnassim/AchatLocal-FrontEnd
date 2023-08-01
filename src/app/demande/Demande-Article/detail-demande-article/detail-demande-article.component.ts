@@ -5,9 +5,11 @@ import { BonDeCommandeService } from 'src/app/Services/bon-de-commande.service';
 import { BonDeSortieService } from 'src/app/Services/bon-de-sortie.service';
 import { DemandeAchatService } from 'src/app/Services/demande-achat.service';
 import { DemandeArticleService } from 'src/app/Services/demande-article.service';
+import { TokenService } from 'src/app/auth/services/token.service';
 import { AppBreadcrumbService } from 'src/app/main/app-breadcrumb/app.breadcrumb.service';
 import { BonDeSortie } from 'src/app/models/bon-de-sortie';
 import { DemandeArticle } from 'src/app/models/demande-article';
+import { Utilisateur } from 'src/app/models/utilisateur';
 
 @Component({
   selector: 'app-detail-demande-article',
@@ -25,13 +27,14 @@ export class DetailDemandeArticleComponent implements OnInit {
 
   bDisabled : boolean = false;
 
+  currentUser : Utilisateur;
+
   constructor(
     private breadCrumbService: AppBreadcrumbService,
     private route: ActivatedRoute,
     private router: Router,
-    private demandeAchatService: DemandeAchatService,
+    private tokenService: TokenService,
     private bonDeSortieService: BonDeSortieService,
-    private bonDeCommandeService: BonDeCommandeService,
     private demandeArticleService: DemandeArticleService,
     private confirmationService: ConfirmationService,
     private messageService: MessageService
@@ -49,6 +52,9 @@ export class DetailDemandeArticleComponent implements OnInit {
 
   ngOnInit(): void {
     this.getDemandeArticle();
+    this.tokenService.getUser().subscribe( data => {
+      this.currentUser = data;
+    })
   }
 
   getDemandeArticle() {
@@ -92,7 +98,7 @@ export class DetailDemandeArticleComponent implements OnInit {
         let v1 = this.demandeArticle.id;
         switch (this.nature) {
           case "Bon de sortie":
-            let bs: BonDeSortie = { dateSortie: new Date(), demandeArticle: this.demandeArticle };
+            let bs: BonDeSortie = { dateSortie: new Date(), demandeArticle: this.demandeArticle, magasinier: this.currentUser };
             this.bonDeSortieService.addBonDeSortie(bs).subscribe();
             this.messageService.add({ severity: 'réussi', summary: 'Réussi', detail: this.nature + ' envoyé', life: 3000 });
             setTimeout(() => this.router.navigate(["demande/Liste-des-demandes"]), 1000);

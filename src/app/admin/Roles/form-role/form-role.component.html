@@ -1,8 +1,0 @@
-<div class="field">
-    <label for="firstname1">Nom du rôle</label>
-    <input id="firstname1" type="text" [(ngModel)]="nom" [pKeyFilter]="noSpecial" autofocus maxlength="40" pInputText>
-</div>
-<div class="footer">
-<button pButton pRipple label="Confirmer" icon="pi pi-check" class="p-button-text" (click)="onSubmit()" [disabled]="!nom"></button>
-<button pButton pRipple label="Annuler" icon="pi pi-times" class="p-button-text" (click)="terminateDialog()"></button>
-</div>

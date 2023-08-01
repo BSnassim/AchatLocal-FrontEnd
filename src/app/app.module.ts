@@ -159,8 +159,6 @@ import { AuthModule } from './auth/auth.module';
 import { SharedModule } from './shared/shared.module';
 import { NgxPermissionsModule, NgxPermissionsService } from "ngx-permissions";
 import { TokenInterceptorService } from "./interceptors/token-interceptor.service";
-import { FormRoleComponent } from './admin/Roles/form-role/form-role.component';
-import { ListRoleComponent } from './admin/Roles/list-role/list-role.component';
 import { FormUserComponent } from './admin/Users/form-user/form-user.component';
 import { ListUserComponent } from './admin/Users/list-user/list-user.component';
 import { KeyFilterModule } from 'primeng/keyfilter';
@@ -339,8 +337,6 @@ export function HttpLoaderFactory(http: HttpClient): TranslateHttpLoader {
         AppNotfoundComponent,
         AppErrorComponent,
         AppAccessdeniedComponent,
-        FormRoleComponent,
-        ListRoleComponent,
         FormUserComponent,
         ListUserComponent,
         ListCategorieComponent,
