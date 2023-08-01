@@ -51,4 +51,16 @@ export class UtilisateurService {
     return this.http.get<Utilisateur>(URL+"/email/"+email);
   }
 
+  getUsersCount(): Observable<number>{
+    return this.http.get<number>(URL+"/count");
+  }
+
+  getUsersCountByRole(role: string): Observable<number>{
+    return this.http.get<number>(URL+"/count/"+role);
+  }
+
+  getUsersCountByDepartement(departement: string): Observable<number>{
+    return this.http.get<number>(URL+"/count/departement/"+departement);
+  }
+
 }
