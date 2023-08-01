@@ -1,0 +1,20 @@
+<div class="grid">
+    <div class="col-12 lg:col-11">
+        <div class="card">
+            <div *ngxPermissionsOnly="'Administrateur'">
+                <h5>Statistiques des Utilisateurs</h5>
+                <p-chart
+                    type="bar"
+                    [data]="stackedData"
+                    [options]="stackedOptions"
+                ></p-chart>
+            </div>
+            <div *ngxPermissionsOnly="'Magasinier'">
+                magasinier dashboard
+            </div>
+            <div *ngxPermissionsOnly="'Service achat'">
+                service achat dashboard
+            </div>
+        </div>
+    </div>
+</div>

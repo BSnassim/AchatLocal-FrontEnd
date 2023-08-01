@@ -40,6 +40,7 @@ import { MagasinierModule } from '../magasinier/magasinier.module';
 import { DemandeModule } from '../demande/demande.module';
 import { ServiceAchatModule } from '../service-achat/service-achat.module';
 import { NgxPermissionsGuard } from 'ngx-permissions';
+import { DashboardComponent } from '../dashboard/dashboard.component';
 
 const templateRoutes: Routes = [
     {path: 'uikit/formlayout', component: FormLayoutDemoComponent},
@@ -78,7 +79,7 @@ const templateRoutes: Routes = [
 
 
 export const mainRoutes: Routes = [
-    {path: '', component: DashboardDemoComponent, canActivate: [AuthGuardService]},
+    {path: '', component: DashboardComponent, canActivate: [AuthGuardService]},
     {
         path: 'administration',
         loadChildren: () => AdminModule,
