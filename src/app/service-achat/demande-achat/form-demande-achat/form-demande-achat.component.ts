@@ -127,7 +127,7 @@ export class FormDemandeAchatComponent implements OnInit {
           this.demandeArticleService.editDemandeArticle(this.demandeArticle).subscribe();
           this.demandeAchatService.addDemandeAchat(d).subscribe();
           this.messageService.add({ severity: 'réussi', summary: 'Réussi', detail: 'Demande envoyé', life: 3000 });
-          setTimeout(() => this.router.navigate(["demande/Liste-demande-achat"]), 1000);
+          setTimeout(() => this.router.navigate(["service-achat/Liste-demande-achat"]), 1000);
         }
       });
     }

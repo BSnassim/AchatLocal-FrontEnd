@@ -24,6 +24,10 @@ export class DemandeArticleService {
     return this.http.get<DemandeArticle[]>(URL);
   }
 
+  getDemandeArticleByUser(id:number): Observable<DemandeArticle[]> {
+    return this.http.get<DemandeArticle[]>(URL+"/byDemandeur/"+id);
+  }
+
   getDemandeArticlePDF(id:number): Observable<any> {
     return this.http.get(URL+"/pdf/"+id, { responseType: 'arraybuffer' });
   }
@@ -54,6 +58,10 @@ export class DemandeArticleService {
         this._refresh$.next();
       })
     );
+  }
+
+  getCountByEtat(etat: string): Observable<number>{
+    return this.http.get<number>(URL+"/count/etat/"+etat);
   }
 
 }

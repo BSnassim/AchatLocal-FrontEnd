@@ -1,1 +1,55 @@
-<p>mes-demandes works!</p>
+<div class="grid">
+    <div class="col-12">
+
+        <div class="card">
+            
+
+            <p-table #dt [value]="demandeList" [columns]="cols" [rows]="10" [paginator]="true"
+                [globalFilterFields]="['article.libelle', 'demandeur.departement.nom', 'quantite', 'dateDa']"
+                [rowHover]="true" dataKey="id" styleClass="p-datatable-customers"
+                currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries"
+                [showCurrentPageReport]="true">
+                <ng-template pTemplate="caption">
+                    <div class="flex flex-column md:flex-row md:justify-content-between table-header">
+                        <h5 class="p-m-0">Mes demandes</h5>
+                        <span class="p-input-icon-left">
+                            <i class="pi pi-search"></i>
+                            <input pInputText type="text" (input)="dt.filterGlobal($event.target.value, 'contains')"
+                                placeholder="Search..." />
+                        </span>
+                    </div>
+                </ng-template>
+                <ng-template pTemplate="header">
+                    <tr>
+                        
+                        <th pSortableColumn="article.libelle">Article <p-sortIcon field="article"></p-sortIcon></th>
+                        <th pSortableColumn="quantite">Quantite <p-sortIcon field="quantite"></p-sortIcon></th>
+                        <th pSortableColumn="demandeur.departement.nom">Demandeur <p-sortIcon field="demandeur"></p-sortIcon></th>
+                        <th pSortableColumn="dateDa">Date <p-sortIcon field="dateDa"></p-sortIcon></th>
+                        <th pSortableColumn="etat">Etat <p-sortIcon field="etat"></p-sortIcon></th>
+
+                    </tr>
+                </ng-template>
+                <ng-template pTemplate="body" let-demande>
+                    <tr>
+                        <td *ngIf="testArticleExistence(demande); else elseBlock">{{ demande.article.libelle }}</td>
+                        <ng-template #elseBlock>
+                            <td>{{demande.extraArticle}}</td>
+                        </ng-template>
+                        <td>{{ demande.quantite }}</td>
+                        <td>{{ demande.demandeur.departement.nom }}</td>
+                        <td>{{ demande.dateDa | date: 'dd/MM/yyyy'}}</td>
+                        <td>{{ demande.etat }}</td>
+                        
+                    </tr>
+                </ng-template>
+                <ng-template pTemplate="paginatorleft">
+
+                </ng-template>
+                <ng-template pTemplate="paginatorright">
+
+                </ng-template>
+            </p-table>
+        </div>
+    </div>
+</div>

@@ -23,6 +23,15 @@ export class HistoriqueArticleService {
     return this.http.get<HistoriqueArticle[]>(URL+"/article/"+id);
   }
 
+  getHistorique():Observable<HistoriqueArticle[]> {
+    return this.http.get<HistoriqueArticle[]>(URL).pipe(
+      tap(() =>{
+        this._refresh$.next();
+      })
+    );
+  }
+  
+
   addHistoriqueArticle(HistoriqueArticle: HistoriqueArticle) {
     return this.http.post<HistoriqueArticle>(URL, HistoriqueArticle).pipe(
       tap(() =>{

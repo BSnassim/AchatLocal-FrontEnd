@@ -126,7 +126,7 @@ export class FormBonDeCommandeComponent implements OnInit {
           this.demandeArticleService.editDemandeArticle(this.demandeArticle).subscribe();
           this.bonDeCommandeService.addBonDeCommande(b).subscribe();
           this.messageService.add({ severity: 'réussi', summary: 'Réussi', detail: 'Commande envoyé', life: 3000 });
-          setTimeout(() => this.router.navigate(["demande/Liste-bon-de-commande"]), 1000);
+          setTimeout(() => this.router.navigate(["service-chat/Liste-bon-de-commande"]), 1000);
         }
       });
     }

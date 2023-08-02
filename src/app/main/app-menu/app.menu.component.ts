@@ -89,12 +89,12 @@ export class AppMenuComponent implements OnInit {
       {
         label: "Demander un article",
         icon: "pi pi-fw pi-file-o",
-        routerLink: ["/demande/Demander-un-article"]
+        routerLink: ["demande/Demander-un-article"]
       },
       {
         label: "Mes demandes",
         icon: "pi pi-fw pi-folder",
-        routerLink: ["/demande/Mes-demandes"]
+        routerLink: ["demande/Mes-demandes"]
       },
       
     ];

@@ -5,6 +5,7 @@ import { FormDemandeArticleComponent } from './Demande-Article/form-demande-arti
 import { DetailDemandeArticleComponent } from './Demande-Article/detail-demande-article/detail-demande-article.component';
 import { ListBonDeSortieComponent } from './Bon-De-Sortie/list-bon-de-sortie/list-bon-de-sortie.component';
 import { NgxPermissionsGuard } from 'ngx-permissions';
+import { MesDemandesComponent } from './Demande-Article/mes-demandes/mes-demandes.component';
 
 const routes: Routes = [
   {
@@ -12,6 +13,7 @@ const routes: Routes = [
     canActivate: [NgxPermissionsGuard], data: { permissions: { only: ['Magasinier', 'Administrateur'] } }
   },
   { path: "Demander-un-article", component: FormDemandeArticleComponent },
+  { path: "Mes-demandes", component: MesDemandesComponent },
   {
     path: "Details-demande", component: DetailDemandeArticleComponent,
     canActivate: [NgxPermissionsGuard], data: { permissions: { only: ['Magasinier', 'Administrateur'] } }
@@ -19,7 +21,7 @@ const routes: Routes = [
   {
     path: "Liste-des-bons-de-sortie", component: ListBonDeSortieComponent,
     canActivate: [NgxPermissionsGuard], data: { permissions: { only: ['Magasinier', 'Administrateur'] } }
-  }
+  },
 ];
 
 @NgModule({
