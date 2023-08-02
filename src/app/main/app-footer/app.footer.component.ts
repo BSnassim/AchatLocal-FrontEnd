@@ -7,9 +7,9 @@ import {AppComponent} from '../../app.component';
         <div class="layout-footer">
             <div class="footer-logo-container">
                 <img id="footer-logo"   [src]="'assets/layout/images/logo-'+ (app.colorScheme === 'light' ? 'dark' : 'light') + '.png'" alt="atlantis-layout"/>
-                <span class="app-name">SBE</span>
+                <span class="app-name"></span>
             </div>
-            <span class="copyright">&#169; GTI - 2021</span>
+            <span class="copyright">&#169; RNTA - 2023</span>
         </div>
     `
 })

@@ -48,10 +48,10 @@ export class FormUserComponent implements OnInit {
     private departementService: DepartementService,
     private userService: UtilisateurService,
     private tokenService: TokenService
-    ) { }
+  ) { }
 
   ngOnInit(): void {
-    this.departementService.getDepartements().subscribe( data => {
+    this.departementService.getDepartements().subscribe(data => {
       this.departements = data;
     });
 
@@ -67,57 +67,53 @@ export class FormUserComponent implements OnInit {
 
   async onSubmit() {
     if (this.userToEdit == null) {
-          this.userService.getUtilisateurByEmail(this.email).subscribe(data => {
-            if (data != null) {
-              this.errorEmail = "Email existe déjà";
-            }
-            else {
-                  this.user = {
-                    departement:this.selectedDepartement,
-                    email:this.email,
-                    nom:this.nom,
-                    prenom:this.prenom,
-                    password:this.password,
-                    role:this.selectedRole,
-                  };
-                  this.userService.addUtilisateur(this.user).subscribe();
-                  this.closeDialog.emit(false);
-                };
-          });
+      this.userService.getUtilisateurByEmail(this.email).subscribe(data => {
+        if (data != null) {
+          this.errorEmail = "Email existe déjà";
         }
-    //       });
-    //     }
-    //   })
-    // }
-    // else {
-    //   const req1 = await this.userService.emailAlreadyExists(this.email).toPromise();
-    //   if (req1 != null && req1.email != this.userToEdit.email) {
-    //     this.errorEmail = "Email utilisé par un autre utilisateur";
-    //   }
-    //   else this.errorEmail = "";
+        else {
+          this.user = {
+            departement: this.selectedDepartement,
+            email: this.email,
+            nom: this.nom,
+            prenom: this.prenom,
+            password: this.password,
+            role: this.selectedRole,
+          };
+          this.userService.addUtilisateur(this.user).subscribe();
+          this.closeDialog.emit(false);
+        };
+      });
+    } else {
+      this.userService.getUtilisateurByEmail(this.email).subscribe(async data => {
+        if (data != null && data.email != this.userToEdit.email) {
+          this.errorEmail = "Email existe déjà";
+        } else {
+          console.log(this.errorEmail);
+          console.log(this.errorPass);
+          this.errorEmail = "";
+          const req2 = await this.tokenService.checkPassword(this.oldPassword, this.userToEdit.password).toPromise();
+          if (req2 == false) {
+            this.errorPass = "Mot de passe actuel invalide";
+          }
+          else this.errorPass = "";
+          if (this.errorEmail == "" && this.errorPass == "") {
+            this.user = {
+              id: this.userToEdit.id,
+              departement: this.selectedDepartement,
+              email: this.email,
+              nom: this.nom,
+              prenom: this.prenom,
+              password: this.password,
+              role: this.selectedRole,
+            };
+            this.userService.editUtilisateur(this.user).subscribe();
+            this.closeDialog.emit(false);
+          };
 
-    //   const req2 = await this.tokenService.checkPassword(this.oldPassword, this.userToEdit.password).toPromise();
-    //   if (req2 == false) {
-    //     this.errorPass = "Mot de passe actuel invalide";
-    //   }
-    //   else this.errorPass = "";
-
-
-    //   if (this.errorEmail == "" && this.errorPass == "") {
-
-    //     this.user.profil = this.selectedProfil;
-    //     this.user.agence = this.selectedAgence;
-    //     this.user.nom = this.nom;
-    //     this.user.prenom = this.prenom;
-    //     this.user.dateNais = this.dateN;
-    //     this.user.email = this.email;
-    //     this.user.password = this.password;
-    //     this.user.tel = this.tel;
-    //     this.userService.EditUser(this.user).subscribe();
-    //     this.closeDialog.emit(false);
-    //   };
-
-    // }
+        }
+      });
+    }
   }
 
   terminateDialog() {

@@ -13,18 +13,18 @@ import {AuthService} from "../../auth/services/auth.service";
                     <i class="pi pi-bars"></i>
                 </a>
 
-                <a href="#" class="logo">
+                <!-- <a href="#" class="logo">
                     <img  [src]="'assets/layout/images/logo-'+ (app.colorScheme === 'light' ? 'dark' : 'light') + '.png'">
                 </a>
 
                 <a href="#">
                     <img  [src]="'assets/layout/images/appname-'+ (app.colorScheme === 'light' ? 'dark' : 'light') + '.png'" class="app-name"/>
-                </a>
+                </a> -->
             </div>
 
             <app-menu></app-menu>
 
-            <div class="layout-topbar-right">
+            <!-- <div class="layout-topbar-right">
                 <ul class="layout-topbar-right-items">
                     <li #profile class="profile-item" [ngClass]="{'active-topmenuitem':appMain.activeTopbarItem === profile}">
                         <a href="#" (click)="appMain.onTopbarItemClick($event,profile)">
@@ -62,7 +62,7 @@ import {AuthService} from "../../auth/services/auth.service";
                     </li>
 
                 </ul>
-            </div>
+            </div> -->
         </div>
     `
 })
