@@ -111,7 +111,7 @@
         </div>
 
 
-        <div class="col-12 md:col-12">
+        <div *ngIf="demandeAvailable" class="col-12 md:col-12">
             <div class="card">
                 Suivez l'état de votre demande récente de l'article : {{ latestDemande.article.libelle }}
                 <p-timeline [value]="events" layout="horizontal" align="top">

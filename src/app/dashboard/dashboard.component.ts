@@ -44,6 +44,7 @@ export class DashboardComponent implements OnInit {
 
   // Pour demandeur
   latestDemande: DemandeArticle;
+  demandeAvailable: boolean = false;
   events;
   menuCarousel = [
     {
@@ -257,6 +258,9 @@ export class DashboardComponent implements OnInit {
     this.tokenService.getUser().subscribe(u => {
       this.demandeArticleService.getLatest(u.id).subscribe(d => {
         this.latestDemande = d;
+        if(d != null){
+          this.demandeAvailable = true;
+        }
         switch(d.etat){
           case "En attente":
             this.events = ["En attente"];
