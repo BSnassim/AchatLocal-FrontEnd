@@ -19,6 +19,10 @@ export class DemandeAchatService {
     return this._refresh$;
   }
 
+  getDemandeAchatCount(): Observable<number>{
+    return this.http.get<number>(URL+"/count");
+  }
+
   getDemandeAchat(): Observable<DemandeAchat[]> {
     return this.http.get<DemandeAchat[]>(URL);
   }

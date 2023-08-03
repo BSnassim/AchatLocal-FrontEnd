@@ -1,53 +1,53 @@
 <div class="layout-dashboard">
     <div class="grid">
-        <div class="col-12 md:col-4" *ngxPermissionsOnly="'Administrateur'">
-            <div class="card widget-overview-box widget-overview-box-1">
+        <div class="col-12 md:col-4" *ngxPermissionsOnly="['Magasinier','Administrateur','Service achat']">
+            <div (click)="show(1)" class="card widget-overview-box widget-overview-box-1">
                 <span class="overview-title">
-                    ADMINISTRATEURS
+                    Demandeurs
                 </span>
                 <div class="flex justify-content-between">
                     <div class="overview-detail flex justify-content-between">
                         <div class="overview-badge flex justify-content-center align-items-center">
-                            <span>{{ adminPercentage }}</span>
+                            <span>{{ demandeArticleCount }}</span>
                         </div>
                         <div class="overview-text">
-                            {{ adminCount }}
+                            Demandes
                         </div>
                     </div>
                 </div>
                 <img src="assets/layout/images/dashboard/rate.svg">
             </div>
         </div>
-        <div class="col-12 md:col-4">
-            <div class="card widget-overview-box widget-overview-box-2">
+        <div class="col-12 md:col-4" *ngxPermissionsOnly="['Magasinier','Administrateur','Service achat']">
+            <div (click)="show(2)" class="card widget-overview-box widget-overview-box-2">
                 <span class="overview-title">
                     MAGASINIERS
                 </span>
                 <div class="flex justify-content-between">
                     <div class="overview-detail flex justify-content-between">
                         <div class="overview-badge flex justify-content-center align-items-center">
-                            <span>{{ magasinierPercentage }}</span>
+                            <span>{{ bonDeSortieCount+demandeAchatCount+bonDeCommandeCount }}</span>
                         </div>
                         <div class="overview-text">
-                            {{ magasinierCount }}
+                            Operation
                         </div>
                     </div>
                 </div>
                 <img src="assets/layout/images/dashboard/value.svg">
             </div>
         </div>
-        <div class="col-12 md:col-4">
-            <div class="card widget-overview-box widget-overview-box-3">
+        <div class="col-12 md:col-4" *ngxPermissionsOnly="['Magasinier','Administrateur','Service achat']">
+            <div (click)="show(3)" class="card widget-overview-box widget-overview-box-3">
                 <span class="overview-title">
                     SERVICE ACHAT
                 </span>
                 <div class="flex justify-content-between">
                     <div class="overview-detail flex justify-content-between">
                         <div class="overview-badge flex justify-content-center align-items-center">
-                            <span>{{ serviceAchatPercentage }}</span>
+                            <span>{{ demandeAchatCount+bonDeCommandeCount }}</span>
                         </div>
                         <div class="overview-text">
-                            {{ serviceAchatCount }}
+                            Operation
                         </div>
                     </div>
                 </div>
@@ -55,20 +55,18 @@
             </div>
         </div>
 
-
-
-        <!-- <div *ngxPermissionsOnly="'Magasinier'"> -->
-
-        <div class="col-12 md:col-8">
+        <div class="col-12 md:col-8" *ngxPermissionsOnly="['Magasinier','Administrateur','Service achat']">
             <div class="card widget-visitor-graph">
                 <div class="card-header">
                     <span>Graphique des demandes</span>
                 </div>
-                <p-chart type="bar" [data]="basicData"></p-chart>
+                <p-chart type="bar" [hidden]="hideA" [data]="basicData"></p-chart>
+                <p-chart type="bar" [hidden]="hideB" [data]="magasinierData"></p-chart>
+                <p-chart type="bar" [hidden]="hideC" [data]="serviceData"></p-chart>
             </div>
         </div>
 
-        <div class="col-12 md:col-4">
+        <div class="col-12 md:col-4" *ngxPermissionsOnly="['Magasinier','Administrateur','Service achat']">
             <div class="card widget-timeline">
                 <div class="timeline-header flex justify-content-between align-items-center">
                     <p>Historique du stock</p>
@@ -96,8 +94,15 @@
             </div>
         </div>
 
-        <div *ngxPermissionsOnly="'Service achat'">
-            service achat dashboard
+        <div class="col-12 md:col-12">
+            <div class="card">
+                Suivez l'état de votre demande récente de l'article : {{ latestDemande.article.libelle }}
+                <p-timeline [value]="events" layout="horizontal" align="top">
+                    <ng-template pTemplate="content" let-event>
+                        {{ event }}
+                    </ng-template>
+                </p-timeline>
+            </div>
         </div>
 
     </div>

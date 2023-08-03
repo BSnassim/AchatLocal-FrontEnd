@@ -19,6 +19,10 @@ export class BonDeSortieService {
     return this._refresh$;
   }
 
+  getBonDeSortieCount(): Observable<number>{
+    return this.http.get<number>(URL+"/count");
+  }
+
   getBonDeSorties(): Observable<BonDeSortie[]> {
     return this.http.get<BonDeSortie[]>(URL);
   }

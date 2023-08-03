@@ -20,6 +20,10 @@ export class BonDeCommandeService {
     return this._refresh$;
   }
 
+  getBonDeCommandeCount(): Observable<number>{
+    return this.http.get<number>(URL+"/count");
+  }
+
   getBonDeCommandes(): Observable<BonDeCommande[]> {
     return this.http.get<BonDeCommande[]>(URL);
   }

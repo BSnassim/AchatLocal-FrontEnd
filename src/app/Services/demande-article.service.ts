@@ -20,12 +20,20 @@ export class DemandeArticleService {
     return this._refresh$;
   }
 
+  getDemandeArticleCount(): Observable<number>{
+    return this.http.get<number>(URL+"/count");
+  }
+
   getDemandeArticle(): Observable<DemandeArticle[]> {
     return this.http.get<DemandeArticle[]>(URL);
   }
 
   getDemandeArticleByUser(id:number): Observable<DemandeArticle[]> {
     return this.http.get<DemandeArticle[]>(URL+"/byDemandeur/"+id);
+  }
+
+  getLatest(id:number): Observable<DemandeArticle> {
+    return this.http.get<DemandeArticle>(URL+"/latest/"+id);
   }
 
   getDemandeArticlePDF(id:number): Observable<any> {

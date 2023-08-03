@@ -10,6 +10,8 @@ import { BonDeCommandeService } from '../Services/bon-de-commande.service';
 import { PrimeIcons } from 'primeng/api';
 import { HistoriqueArticleService } from '../Services/historique-article.service';
 import { HistoriqueArticle } from '../models/historique-article';
+import { DemandeArticle } from '../models/demande-article';
+import { AppBreadcrumbService } from '../main/app-breadcrumb/app.breadcrumb.service';
 
 @Component({
   selector: 'app-dashboard',
@@ -20,29 +22,35 @@ export class DashboardComponent implements OnInit {
 
   currentUser: Utilisateur;
 
-  // Stats pour admin
-  adminCount: number;
-  adminPercentage: string;
-  magasinierCount: number;
-  magasinierPercentage: string;
-  serviceAchatCount: number;
-  serviceAchatPercentage: string;
-  userCount: number;
-  departmentNames: string[];
-  departmentCounts: number[];
-
   // Stats pour magasinier
   termineCount: number = 0;
   attenteCount: number = 0;
   coursCount: number = 0;
   basicData;
   basicOptions;
-  historyA : HistoriqueArticle[] = [];
+  historyA: HistoriqueArticle[] = [];
   timelineEvents: any[] = [];
+  demandeArticleCount: number = 0;
+  demandeAchatCount: number = 0;
+  bonDeCommandeCount: number = 0;
+  bonDeSortieCount: number = 0;
+  magasinierData;
+  serviceData;
 
+  hideA: boolean = false;
+  hideB: boolean = true;
+  hideC: boolean = true;
 
+  // Pour demandeur
+  latestDemande: DemandeArticle;
+  events;
+
+  // Stats pour service achat
+  saData;
+  saOptions;
 
   constructor(private tokenService: TokenService,
+    private breadCrumbService: AppBreadcrumbService,
     private utilisateurService: UtilisateurService,
     private departementService: DepartementService,
     private demandeArticleService: DemandeArticleService,
@@ -51,33 +59,101 @@ export class DashboardComponent implements OnInit {
     private bonDeCommandeService: BonDeCommandeService,
     private historiqueService: HistoriqueArticleService
   ) {
-    this.getUserStats();
-    this.getMagasinierStats();
-    this.getHistory();
-   }
-
-  ngOnInit(): void {
+    this.breadCrumbService.setItems(
+      [{
+        label:"Dashboard"
+      }]
+    )
     this.tokenService.getUser().subscribe(user => {
       this.currentUser = user;
     });
-   
+    this.getCounts();
+    this.getMagasinierStats();
+    this.getHistory();
+    this.getSuiviDemande();
   }
 
-  getUserStats() {
-    this.utilisateurService.getUsersCount().subscribe(count => { this.userCount = count });
-    this.utilisateurService.getUsersCountByRole("Administrateur").subscribe(count => {
-      this.adminCount = count;
-      this.adminPercentage = (count / this.userCount * 100).toFixed(2) + "%";
-    });
-    this.utilisateurService.getUsersCountByRole("Magasinier").subscribe(count => {
-      this.magasinierCount = count;
-      this.magasinierPercentage = (count / this.userCount * 100).toFixed(2) + "%";
-    });
-    this.utilisateurService.getUsersCountByRole("Service achat").subscribe(count => {
-      this.serviceAchatCount = count;
-      this.serviceAchatPercentage = (count / this.userCount * 100).toFixed(2) + "%";
-    });
+  ngOnInit(): void {
+  }
 
+  show(n: number) {
+    switch (n) {
+      case 1:
+        this.hideA = false;
+        this.hideB = true;
+        this.hideC = true;
+        break;
+      case 2:
+        this.hideA = true;
+        this.hideB = false;
+        this.hideC = true;
+        break;
+      case 3:
+        this.hideA = true;
+        this.hideB = true;
+        this.hideC = false;
+        break;
+    }
+  }
+
+  getCounts() {
+    this.demandeArticleService.getDemandeArticleCount().subscribe(c => {
+      this.demandeArticleCount = c;
+    })
+    this.demandeAchatService.getDemandeAchatCount().subscribe(c => {
+      this.demandeAchatCount = c;
+    })
+    this.bonDeCommandeService.getBonDeCommandeCount().subscribe(c => {
+      this.bonDeCommandeCount = c;
+    })
+    this.bonDeSortieService.getBonDeSortieCount().subscribe(c => {
+      this.bonDeSortieCount = c;
+      this.magasinierData = {
+        labels: [''],
+        datasets: [
+          {
+            label: ['Bon de sortie'],
+            data: [this.bonDeSortieCount],
+            backgroundColor: ['rgba(255, 159, 64, 0.2)'],
+            borderColor: ['rgb(255, 159, 64)'],
+            borderWidth: 1
+          },
+          {
+            label: ['Bon de commande'],
+            data: [this.bonDeCommandeCount],
+            backgroundColor: ['rgba(75, 192, 192, 0.2)'],
+            borderColor: ['rgb(75, 192, 192)'],
+            borderWidth: 1
+          },
+          {
+            label: ["Demande d'achat"],
+            data: [this.demandeAchatCount],
+            backgroundColor: ['rgba(54, 162, 235, 0.2)'],
+            borderColor: ['rgb(54, 162, 235)'],
+            borderWidth: 1
+          },
+        ]
+      };
+      this.serviceData = {
+        labels: [''],
+        datasets: [
+          {
+            label: ['Bon de commande'],
+            data: [this.bonDeCommandeCount],
+            backgroundColor: ['rgba(75, 192, 192, 0.2)'],
+            borderColor: ['rgb(75, 192, 192)'],
+            borderWidth: 1
+          },
+          {
+            label: ["Demande d'achat"],
+            data: [this.demandeAchatCount],
+            backgroundColor: ['rgba(54, 162, 235, 0.2)'],
+            borderColor: ['rgb(54, 162, 235)'],
+            borderWidth: 1
+          },
+        ]
+      };
+    })
   }
 
   getMagasinierStats() {
@@ -90,13 +166,27 @@ export class DashboardComponent implements OnInit {
     this.demandeArticleService.getCountByEtat("En attente").subscribe(c => {
       this.attenteCount = c;
       this.basicData = {
-        labels: ['En attente', 'En cours de traitement', 'Terminé'],
+        labels: [''],
         datasets: [
           {
-            label: 'Demandes',
-            data: [this.attenteCount, this.coursCount, this.termineCount],
-            backgroundColor: ['rgba(255, 159, 64, 0.2)', 'rgba(75, 192, 192, 0.2)', 'rgba(54, 162, 235, 0.2)', 'rgba(153, 102, 255, 0.2)'],
-            borderColor: ['rgb(255, 159, 64)', 'rgb(75, 192, 192)', 'rgb(54, 162, 235)', 'rgb(153, 102, 255)'],
+            label: 'En attente',
+            data: [this.attenteCount],
+            backgroundColor: ['rgba(255, 159, 64, 0.2)'],
+            borderColor: ['rgb(255, 159, 64)'],
+            borderWidth: 1
+          },
+          {
+            label: 'En cours',
+            data: [this.coursCount],
+            backgroundColor: ['rgba(75, 192, 192, 0.2)'],
+            borderColor: ['rgb(75, 192, 192)'],
+            borderWidth: 1
+          },
+          {
+            label: 'Terminé',
+            data: [this.termineCount],
+            backgroundColor: ['rgba(54, 162, 235, 0.2)'],
+            borderColor: ['rgb(54, 162, 235)'],
             borderWidth: 1
           }
         ]
@@ -105,7 +195,7 @@ export class DashboardComponent implements OnInit {
   }
 
   getHistory() {
-    this.historiqueService.getHistorique().subscribe( h => {
+    this.historiqueService.getHistorique().subscribe(h => {
       this.historyA = h;
       h.forEach(e => {
         if (e.entre > 0) {
@@ -127,5 +217,23 @@ export class DashboardComponent implements OnInit {
     });
   }
 
+  getSuiviDemande() {
+    this.tokenService.getUser().subscribe(u => {
+      this.demandeArticleService.getLatest(u.id).subscribe(d => {
+        this.latestDemande = d;
+        switch(d.etat){
+          case "En attente":
+            this.events = ["En attente"];
+            break;
+          case "En cours du traitement":
+            this.events = ["En attente", "En cours du traitement"];
+            break;
+          case "Terminé":
+            this.events = ["En attente", "En cours du traitement", "Terminé"];
+            break;
+        }
+      });
+    })
+  }
 
 }
