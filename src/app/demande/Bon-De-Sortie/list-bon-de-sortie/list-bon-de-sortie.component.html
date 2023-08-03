@@ -2,12 +2,6 @@
     <div class="col-12">
 
         <div class="card">
-            <p-toolbar styleClass="mb-4">
-                <ng-template pTemplate="left">
-                    <button pButton pRipple label="Export" icon="pi pi-upload" class="p-button-help mb-2"
-                        (click)="exportPDF()"></button>
-                </ng-template>
-            </p-toolbar>
 
             <p-table #dt [value]="bonSortieList" [columns]="cols" [rows]="10" [paginator]="true"
                 [globalFilterFields]="['demandeArticle.article.libelle', 'demandeArticle.demandeur.departement.nom', 'demandeArticle.quantite', 'dateSortie']"
