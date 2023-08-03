@@ -12,6 +12,7 @@ import { HistoriqueArticleService } from '../Services/historique-article.service
 import { HistoriqueArticle } from '../models/historique-article';
 import { DemandeArticle } from '../models/demande-article';
 import { AppBreadcrumbService } from '../main/app-breadcrumb/app.breadcrumb.service';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-dashboard',
@@ -44,6 +45,36 @@ export class DashboardComponent implements OnInit {
   // Pour demandeur
   latestDemande: DemandeArticle;
   events;
+  menuCarousel = [
+    {
+      name: 'Mes demandes',
+      image: 'folder',
+      link: 'demande/Mes-demandes'
+    },
+    {
+      name: 'Demander un article',
+      image: 'guideline',
+      link: 'demande/Demander-un-article'
+    },
+  ];
+  carouselResponsiveOptions: any[] = [
+    {
+        breakpoint: '1024px',
+        numVisible: 3,
+        numScroll: 3
+    },
+    {
+        breakpoint: '768px',
+        numVisible: 2,
+        numScroll: 2
+    },
+    {
+        breakpoint: '560px',
+        numVisible: 1,
+        numScroll: 1
+    }
+];
+
 
   // Stats pour service achat
   saData;
@@ -53,6 +84,7 @@ export class DashboardComponent implements OnInit {
     private breadCrumbService: AppBreadcrumbService,
     private utilisateurService: UtilisateurService,
     private departementService: DepartementService,
+    private router: Router,
     private demandeArticleService: DemandeArticleService,
     private demandeAchatService: DemandeAchatService,
     private bonDeSortieService: BonDeSortieService,
@@ -74,6 +106,10 @@ export class DashboardComponent implements OnInit {
   }
 
   ngOnInit(): void {
+  }
+
+  redirect(link:string){
+    this.router.navigate([link]);
   }
 
   show(n: number) {

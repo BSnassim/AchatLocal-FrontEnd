@@ -2,8 +2,10 @@ import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { MessageService, ConfirmationService } from 'primeng/api';
 import { DemandeArticleService } from 'src/app/Services/demande-article.service';
+import { TokenService } from 'src/app/auth/services/token.service';
 import { AppBreadcrumbService } from 'src/app/main/app-breadcrumb/app.breadcrumb.service';
 import { DemandeArticle } from 'src/app/models/demande-article';
+import { Utilisateur } from 'src/app/models/utilisateur';
 
 @Component({
   selector: 'app-mes-demandes',
@@ -16,7 +18,10 @@ export class MesDemandesComponent implements OnInit {
 
   cols: any[];
 
+  currentUser : Utilisateur;
+
   constructor(
+    private tokenService: TokenService,
     private breadcrumbService: AppBreadcrumbService,
     private demandeArticleService: DemandeArticleService,
     private router: Router
@@ -37,10 +42,13 @@ export class MesDemandesComponent implements OnInit {
       { field: 'dateDa', header: 'DateDa' },
       { field: 'etat', header: 'Etat'}
     ];
-
-    this.demandeArticleService.getDemandeArticle().subscribe((data) => {
-      this.demandeList = data;
-    });
+    this.tokenService.getUser().subscribe( u => {
+      this.currentUser = u;
+      this.demandeArticleService.getDemandeArticleByUser(u.id).subscribe((data) => {
+        this.demandeList = data;
+        console.log(u.id);
+      });
+    })
   }
 
   testArticleExistence(demande: DemandeArticle) {

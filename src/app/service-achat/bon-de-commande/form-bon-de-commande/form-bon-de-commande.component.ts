@@ -66,6 +66,7 @@ export class FormBonDeCommandeComponent implements OnInit {
       this.categorieList = data;
     });
     this.route.params.subscribe((params) => {
+      if(params.id > 0){
       this.demandeArticleService.getDemandeArticleById(params.id).subscribe(data => {
         if (data != null) {
           this.demandeArticle = data;
@@ -84,6 +85,7 @@ export class FormBonDeCommandeComponent implements OnInit {
           }
         }
       });
+    }
     });
     this.tokenService.getUser().subscribe( user => {
       this.currentUser = user;
