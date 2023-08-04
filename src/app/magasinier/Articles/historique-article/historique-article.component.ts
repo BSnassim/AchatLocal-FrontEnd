@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
+import { PrimeNGConfig } from 'primeng/api';
 import { ArticleService } from 'src/app/Services/article.service';
 import { HistoriqueArticleService } from 'src/app/Services/historique-article.service';
 import { AppBreadcrumbService } from 'src/app/main/app-breadcrumb/app.breadcrumb.service';
@@ -19,9 +20,31 @@ export class HistoriqueArticleComponent implements OnInit {
   constructor(
     private breadCrumbService: AppBreadcrumbService,
     private historiqueArticleService: HistoriqueArticleService,
-    private route: ActivatedRoute) { }
+    private route: ActivatedRoute,
+    private config: PrimeNGConfig) { }
 
   ngOnInit(): void {
+    this.config.setTranslation({
+      clear: 'Vider',
+      apply: 'Appliquer',
+      addRule: 'Ajouter Filtre',
+      dateAfter: 'Date aprés',
+      dateBefore: 'Date avant',
+      dateIs: 'Date est',
+      dateIsNot: "Date n'est pas",
+      matchAll: 'Correspondre à tous',
+      matchAny: "Correspondre à n'importe quel",
+      startsWith: 'Commence par',
+      endsWith: 'Se termine par',
+      contains: 'Contient',
+      notContains: 'Ne contient pas',
+      equals: 'Egale',
+      notEquals: 'Different de',
+      lt: 'Inferieure à',
+      lte: 'Inferieure ou egal à',
+      gt: 'Superieure à',
+      gte: 'Superieure ou egal à',
+    })
     this.route.params.subscribe( (params) => {
       this.historiqueArticleService.getHistoriqueByArticle(params.id).subscribe( (data)=> {
         data.forEach( (d) => {
