@@ -1,7 +1,7 @@
 <p-table #dt1 [value]="historiqueList" [columns]="cols" dataKey="id" [rows]="10" [showCurrentPageReport]="true"
     [rowsPerPageOptions]="[10, 25, 50]" [paginator]="true"
     currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries"
-    [globalFilterFields]="['dateHistorique','country.name', 'representative.name', 'status']">
+    [globalFilterFields]="['dateHistorique','article.categorie.libelle', 'article.libelle', 'magasinier.nom','magasinier.prenom']">
     <ng-template pTemplate="caption">
         <div class="flex">
             <span class="p-input-icon-left ml-auto">
