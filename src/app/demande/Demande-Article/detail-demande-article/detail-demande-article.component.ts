@@ -1,9 +1,7 @@
 import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { ConfirmationService, MessageService } from 'primeng/api';
-import { BonDeCommandeService } from 'src/app/Services/bon-de-commande.service';
 import { BonDeSortieService } from 'src/app/Services/bon-de-sortie.service';
-import { DemandeAchatService } from 'src/app/Services/demande-achat.service';
 import { DemandeArticleService } from 'src/app/Services/demande-article.service';
 import { TokenService } from 'src/app/auth/services/token.service';
 import { AppBreadcrumbService } from 'src/app/main/app-breadcrumb/app.breadcrumb.service';
@@ -76,11 +74,8 @@ export class DetailDemandeArticleComponent implements OnInit {
   }
 
   getNature(da: DemandeArticle) {
-    if (this.articleNull) {
-      this.nature = da.extraCategorie.typeImportation;
-    }
-    else if (da.quantite > da.article.stock) {
-      this.nature = da.article.categorie.typeImportation;
+    if (this.articleNull || da.quantite > da.article.stock) {
+      this.nature = "Demande d'achat";
     }
     else {
       this.nature = "Bon de sortie";
@@ -102,9 +97,6 @@ export class DetailDemandeArticleComponent implements OnInit {
             this.bonDeSortieService.addBonDeSortie(bs).subscribe();
             this.messageService.add({ severity: 'réussi', summary: 'Réussi', detail: this.nature + ' envoyé', life: 3000 });
             setTimeout(() => this.router.navigate(["demande/Liste-des-demandes"]), 1000);
-            break;
-          case "Bon de commande":
-            this.router.navigate(["/service-achat/Formulaire-bon-de-commande", { id: v1 }]);
             break;
           case "Demande d'achat":
             this.router.navigate(["/service-achat/Formulaire-demande-achat", { id: v1 }]);
